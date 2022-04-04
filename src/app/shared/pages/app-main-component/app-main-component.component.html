@@ -1,32 +1,32 @@
 <div class="view">
   <div class="container">
     <div class="menu">
-      <div [routerLink]="'/agencia-emprego'" class="circulo background-white user">
+      <div [routerLink]="'/agencia-emprego'" id="usuario" (click)="pintarMenu($event)" class="circulo user {{backgroundMenuUser}}">
         <svg xmlns="http://www.w3.org/2000/svg" width="31" height="35" viewBox="0 0 31 35" fill="none">
-          <path d="M30 34V30.3333C30 28.3884 29.2362 26.5232 27.8765 25.1479C26.5169 23.7726 24.6728 23 22.75 23H8.25C6.32718 23 4.48311 23.7726 3.12348 25.1479C1.76384 26.5232 1 28.3884 1 30.3333V34" stroke="#41B8D2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M15.5 16C19.6421 16 23 12.6421 23 8.5C23 4.35786 19.6421 1 15.5 1C11.3579 1 8 4.35786 8 8.5C8 12.6421 11.3579 16 15.5 16Z" stroke="#41B8D2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M30 34V30.3333C30 28.3884 29.2362 26.5232 27.8765 25.1479C26.5169 23.7726 24.6728 23 22.75 23H8.25C6.32718 23 4.48311 23.7726 3.12348 25.1479C1.76384 26.5232 1 28.3884 1 30.3333V34" [attr.stroke]="strokeUser" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M15.5 16C19.6421 16 23 12.6421 23 8.5C23 4.35786 19.6421 1 15.5 1C11.3579 1 8 4.35786 8 8.5C8 12.6421 11.3579 16 15.5 16Z" [attr.stroke]="strokeUser" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
       </div>
       <div class="menu-options">
-        <div [routerLink]="'vagas'" class="circulo listagem-vaga">
+        <div (click)="pintarMenu($event)" id="listagem" [routerLink]="'vagas'" class="circulo listagem-vaga {{backgroundMenuListagem}}">
           <svg width="33" height="44" viewBox="0 0 33 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20.375 1H4.875C3.84729 1 2.86166 1.4425 2.13496 2.23015C1.40826 3.0178 1 4.08609 1 5.2V38.8C1 39.9139 1.40826 40.9822 2.13496 41.7698C2.86166 42.5575 3.84729 43 4.875 43H28.125C29.1527 43 30.1383 42.5575 30.865 41.7698C31.5917 40.9822 32 39.9139 32 38.8V13.6L20.375 1Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M20.375 1V13.6H32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M24.25 24.1H8.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M24.25 32.5H8.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12.625 15.7H10.6875H8.75" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20.375 1H4.875C3.84729 1 2.86166 1.4425 2.13496 2.23015C1.40826 3.0178 1 4.08609 1 5.2V38.8C1 39.9139 1.40826 40.9822 2.13496 41.7698C2.86166 42.5575 3.84729 43 4.875 43H28.125C29.1527 43 30.1383 42.5575 30.865 41.7698C31.5917 40.9822 32 39.9139 32 38.8V13.6L20.375 1Z" [attr.stroke]="strokeListagem" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M20.375 1V13.6H32" [attr.stroke]="strokeListagem" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24.25 24.1H8.75" [attr.stroke]="strokeListagem" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24.25 32.5H8.75" [attr.stroke]="strokeListagem" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12.625 15.7H10.6875H8.75" [attr.stroke]="strokeListagem" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
-        <div class="circulo listagem-vaga-selecionado">
+        <div (click)="pintarMenu($event)" id="listagem-selecionado" class="circulo listagem-vaga-selecionado {{backgroundMenuListagemSelecionado}}">
           <svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8.89478 11.6667L12.8421 15.6667L26 2.33333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M24.6842 13V22.3333C24.6842 23.0406 24.407 23.7189 23.9134 24.219C23.4199 24.719 22.7506 25 22.0526 25H3.63158C2.93364 25 2.26429 24.719 1.77077 24.219C1.27725 23.7189 1 23.0406 1 22.3333V3.66667C1 2.95942 1.27725 2.28115 1.77077 1.78105C2.26429 1.28095 2.93364 1 3.63158 1H18.1053" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M8.89478 11.6667L12.8421 15.6667L26 2.33333" [attr.stroke]="strokeListagemSelecionado" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24.6842 13V22.3333C24.6842 23.0406 24.407 23.7189 23.9134 24.219C23.4199 24.719 22.7506 25 22.0526 25H3.63158C2.93364 25 2.26429 24.719 1.77077 24.219C1.27725 23.7189 1 23.0406 1 22.3333V3.66667C1 2.95942 1.27725 2.28115 1.77077 1.78105C2.26429 1.28095 2.93364 1 3.63158 1H18.1053" [attr.stroke]="strokeListagemSelecionado" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
-        <div [routerLink]="'notificacao'" class="circulo notificacao">
+        <div (click)="pintarMenu($event)" id="notificacao" [routerLink]="'notificacao'" class="circulo notificacao {{backgroundMenuNotificacao}}">
           <svg width="30" height="34" viewBox="0 0 30 34" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24.3333 10.6017C24.3333 8.05517 23.35 5.61294 21.5997 3.81227C19.8493 2.0116 17.4754 1 15 1C12.5246 1 10.1507 2.0116 8.40034 3.81227C6.65 5.61294 5.66667 8.05517 5.66667 10.6017C5.66667 21.8037 1 25.0043 1 25.0043H29C29 25.0043 24.3333 21.8037 24.3333 10.6017Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M17.6912 31.4054C17.4177 31.8904 17.0252 32.293 16.5529 32.5729C16.0806 32.8527 15.5451 33 15.0001 33C14.455 33 13.9196 32.8527 13.4473 32.5729C12.975 32.293 12.5824 31.8904 12.309 31.4054" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M24.3333 10.6017C24.3333 8.05517 23.35 5.61294 21.5997 3.81227C19.8493 2.0116 17.4754 1 15 1C12.5246 1 10.1507 2.0116 8.40034 3.81227C6.65 5.61294 5.66667 8.05517 5.66667 10.6017C5.66667 21.8037 1 25.0043 1 25.0043H29C29 25.0043 24.3333 21.8037 24.3333 10.6017Z" [attr.stroke]="strokeNotificacao" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M17.6912 31.4054C17.4177 31.8904 17.0252 32.293 16.5529 32.5729C16.0806 32.8527 15.5451 33 15.0001 33C14.455 33 13.9196 32.8527 13.4473 32.5729C12.975 32.293 12.5824 31.8904 12.309 31.4054" [attr.stroke]="strokeNotificacao" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </div>
       </div>

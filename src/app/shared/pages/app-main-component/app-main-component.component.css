@@ -47,8 +47,12 @@
   border: 3px solid #FFFFFF;
 }
 
-.background-white{
+.background-branco{
   background-color: #ffffff;
+}
+
+.background-azul{
+  background-color: #41B8D2;
 }
 
 .sair{
