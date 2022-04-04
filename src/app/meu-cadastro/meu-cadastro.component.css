@@ -1,0 +1,62 @@
+.container-cadastro{
+  padding-top: 30px;
+  padding-left: 120px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 130px;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 68px;
+}
+
+.inputs-comum{
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.inputs-pessoa{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inputs-empresa{
+  display: flex;
+  flex-direction: column;
+}
+
+.container-inputs{
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.input{
+  width: 40% !important;
+  margin-bottom: 60px;
+}
+
+button{
+  width: 249px;
+  height: 50px;
+  background: #41B8D2;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+  margin-top: 100px;
+}
+
+.container-button{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
