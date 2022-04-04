@@ -9,6 +9,7 @@ export class AppMainComponentComponent implements OnInit {
 
   constructor() { }
 
+
   ngOnInit(): void {
   }
 
