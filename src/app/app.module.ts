@@ -10,6 +10,8 @@ import { NotificacaoComponent } from './notificacao/notificacao.component';
 import { CandidatoVagaComponent } from './candidato-vaga/candidato-vaga.component';
 import { LoginComponent } from './login/login.component';
 import { AppMainComponentComponent } from './shared/pages/app-main-component/app-main-component.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IgxSwitchModule } from 'igniteui-angular';
 
 @NgModule({
   declarations: [
@@ -24,9 +26,12 @@ import { AppMainComponentComponent } from './shared/pages/app-main-component/app
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    IgxSwitchModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

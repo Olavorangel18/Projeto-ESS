@@ -1,6 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-
+@use "igniteui-angular/theming" as *;
+@use 'variables' as *;
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+@include theme($palette: $palette, $schema: $schema);
+
+:root {
+  @include palette-vars($palette);
+}
+
+.light-theme {
+  @include light-theme($palette);
+}
 
 body{
   height: 100vh;
