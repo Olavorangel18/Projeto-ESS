@@ -35,6 +35,8 @@
   border-bottom-right-radius: 30px;
   border-top-right-radius: 30px;
   background-color: white;
+  max-width: 1300px;
+  overflow-y: auto;
 }
 
 .circulo{
@@ -62,4 +64,3 @@
   width: 100%;
   text-align: center;
 }
-

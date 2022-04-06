@@ -1,3 +1,37 @@
-<igx-switch>
-  Simple switch
-</igx-switch>
+<div class="container-listagem-vagas">
+  <div class="filter">
+    <div class="circulo">
+      <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNiAzNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM1IDFIMUwxNC42IDE3LjgxNzhWMjkuNDQ0NEwyMS40IDMzVjE3LjgxNzhMMzUgMVoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=">
+    </div>
+  </div>
+  <ul>
+    <li>
+      <div class="inscricao-label">Não Candidatado</div>
+      <h2>Titulo</h2>
+      <p class="descricao">Descrição</p>
+      <div class="informacao-vaga">
+        <p>Faixa Salarial: R$ 5000</p>
+        <div class="container-label-informacao">
+          <div class="label tipo">Tech</div>
+          <div class="label modalidade">Hibrido</div>
+          <div class="label senioridade">Hibrido</div>
+        </div>
+        <igx-switch (change)="mudarSituacaoInscricao($event)"></igx-switch>
+      </div>
+    </li>
+    <li>
+      <div class="inscricao-label">Não Candidatado</div>
+      <h2>Titulo</h2>
+      <p class="descricao">Descrição</p>
+      <div class="informacao-vaga">
+        <p>Faixa Salarial: R$ 5000</p>
+        <div class="container-label-informacao">
+          <div class="label tipo">Tech</div>
+          <div class="label modalidade">Hibrido</div>
+          <div class="label senioridade">Hibrido</div>
+        </div>
+        <igx-switch [checked]="true" (change)="mudarSituacaoInscricao($event)"></igx-switch>
+      </div>
+    </li>
+  </ul>
+</div>
