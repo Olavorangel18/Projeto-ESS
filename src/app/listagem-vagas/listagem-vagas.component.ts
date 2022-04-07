@@ -24,7 +24,7 @@ export class ListagemVagasComponent implements OnInit {
   }
 
   acharSwitch(){
-    if(this.tipoUsuario!.tipo =="pessoa"){
+    if(this.tipoUsuario?.tipo =="pessoa"){
       let listaVagasSwitchAtivados:HTMLElement[] = [];
     let listaVagasSwitchInativos:HTMLElement[] = [];
     document.querySelectorAll<HTMLElement>("li").forEach(
@@ -49,12 +49,14 @@ export class ListagemVagasComponent implements OnInit {
   }
 
   pegarTipoUsuario(){
-    let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
-    this.tipoUsuario = JSON.parse(usuarioLogado)
+    if(sessionStorage.getItem('usuarioLogado')){
+      let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
+      this.tipoUsuario = JSON.parse(usuarioLogado)
+      console.log(this.tipoUsuario)
+    }
   }
 
   criarVaga(){
-    console.log("Oi")
     this.router.navigate(['agencia-emprego/criar-vaga'])
   }
 

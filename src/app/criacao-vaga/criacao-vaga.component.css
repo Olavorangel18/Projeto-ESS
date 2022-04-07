@@ -44,9 +44,15 @@ button{
   margin-top: 100px;
 }
 
+.voltar{
+  background: white !important;
+  border: 1px solid #41B8D2;
+}
+
 .container-button{
   width: 100%;
   height: auto;
   display: flex;
   justify-content: center;
+  gap: 40px;
 }
