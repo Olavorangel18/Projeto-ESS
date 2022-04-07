@@ -136,6 +136,14 @@ export class LoginComponent implements OnInit, OnDestroy {
         let usuarios = JSON.parse(String(localStorage.getItem("users")))
         usuarios.forEach((usuario:userModel) => {
           if(usuario.email == usuarioParaLogar.email && usuario.password == usuarioParaLogar.password){
+
+            this.usuarioLogado = new userLogadoModel(
+              usuario.id,
+              usuario.tipo,
+              usuario.nome
+            )
+            sessionStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado))
+
             this.route.navigate(['/agencia-emprego'])
           }
           else{
