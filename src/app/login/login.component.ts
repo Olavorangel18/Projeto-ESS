@@ -58,6 +58,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     e.currentTarget.classList.add("ativo")
   }
 
+  inicializarTipoUsuario(){
+    this.pessoaControl = "#FFFFFF"
+    this.empresaControl = "#41B8D2"
+  }
+
   salvarUsuario(){
     if(this.usuarioForm.valid && this.logIn == false){
       let usuarioParaSalvar:userModel = new userModel(
@@ -152,6 +157,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   abrirFormLogin(){
     if(this.logIn){
       this.logIn = false;
+      this.inicializarTipoUsuario();
       return
     }
     this.logIn=true
