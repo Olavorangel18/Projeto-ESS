@@ -143,7 +143,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.usuarioForm.get('nomeControl')?.enable();
         alert("Usuario invalido")
       }
+    }else{
+      alert ("Login invalido")
     }
+    this.usuarioForm.get('nomeControl')?.enable();
   }
 
   abrirFormLogin(){

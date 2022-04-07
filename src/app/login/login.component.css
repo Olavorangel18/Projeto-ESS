@@ -98,6 +98,10 @@ p{
   color: white;
 }
 
+button{
+  cursor: pointer;
+}
+
 .cadastrar{
   width: 225px;
   height: 60px;
