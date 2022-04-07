@@ -1,12 +1,16 @@
 <div class="container-listagem-vagas">
   <div class="filter">
-    <div class="circulo">
+    <div class="circulo {{tipoUsuario!.tipo == 'empresa' ? 'expandir' : ''}}">
       <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNiAzNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM1IDFIMUwxNC42IDE3LjgxNzhWMjkuNDQ0NEwyMS40IDMzVjE3LjgxNzhMMzUgMVoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=">
+      <svg *ngIf="tipoUsuario!.tipo == 'empresa'" width="55" height="62" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M31 15V44" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M17 30H46" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
     </div>
   </div>
   <ul>
     <li>
-      <div class="inscricao-label">Não Candidatado</div>
+      <div *ngIf="tipoUsuario!.tipo == 'pessoa'" class="inscricao-label">Não Candidatado</div>
       <h2>Titulo</h2>
       <p class="descricao">Descrição</p>
       <div class="informacao-vaga">
@@ -16,11 +20,11 @@
           <div class="label modalidade">Hibrido</div>
           <div class="label senioridade">Hibrido</div>
         </div>
-        <igx-switch (change)="mudarSituacaoInscricao($event)"></igx-switch>
+        <igx-switch (change)="mudarSituacaoInscricao($event)" [disabled]="tipoUsuario!.tipo == 'empresa' ? true : false"></igx-switch>
       </div>
     </li>
     <li>
-      <div class="inscricao-label">Não Candidatado</div>
+      <div *ngIf="tipoUsuario!.tipo == 'pessoa'" class="inscricao-label">Não Candidatado</div>
       <h2>Titulo</h2>
       <p class="descricao">Descrição</p>
       <div class="informacao-vaga">
@@ -30,7 +34,7 @@
           <div class="label modalidade">Hibrido</div>
           <div class="label senioridade">Hibrido</div>
         </div>
-        <igx-switch [checked]="true" (change)="mudarSituacaoInscricao($event)"></igx-switch>
+        <igx-switch (change)="mudarSituacaoInscricao($event)" [disabled]="tipoUsuario!.tipo == 'empresa' ? true : false"></igx-switch>
       </div>
     </li>
   </ul>

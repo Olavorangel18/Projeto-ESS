@@ -1,3 +1,5 @@
+import { userLogadoModel } from './../login/model/userLogado.model';
+import { empresaModel } from './../meu-cadastro/models/empresa.model';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,8 +12,11 @@ export class ListagemVagasComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.pegarTipoUsuario();
     setTimeout(this.acharSwitch, 100);
   }
+
+  tipoUsuario: userLogadoModel|undefined;
 
   mudarSituacaoInscricao(e:any){
       setTimeout(this.acharSwitch, 200);
@@ -37,6 +42,11 @@ export class ListagemVagasComponent implements OnInit {
         vaga.children[0].innerHTML = "não candidatado"
         vaga.children[0].classList.remove('candidatado')
       })
+  }
+
+  pegarTipoUsuario(){
+    let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
+    this.tipoUsuario = JSON.parse(usuarioLogado)
   }
 
 
