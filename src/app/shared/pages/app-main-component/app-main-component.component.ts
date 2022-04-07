@@ -29,6 +29,7 @@ export class AppMainComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarMenu();
+    this.verificarExistenciaUsuarioLogado();
   }
 
   inicializarMenu(){
@@ -98,8 +99,22 @@ export class AppMainComponentComponent implements OnInit {
     }
   }
 
+  verificarExistenciaUsuarioLogado(){
+    if(sessionStorage.getItem('usuarioLogado')){
+
+    }else{
+      alert('Procedimento invalido')
+      this.router.navigate(['/'])
+    }
+
+  }
+
   goToListagem(){
     this.router.navigate(["agencia-emprego/vagas"])
+  }
+
+  deslogar(){
+    sessionStorage.removeItem('usuarioLogado')
   }
 
 }

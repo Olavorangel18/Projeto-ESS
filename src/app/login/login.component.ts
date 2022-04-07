@@ -71,6 +71,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.usuarioForm.get('nomeControl')!.value,
         this.usuarioForm.get('emailControl')!.value,
         this.usuarioForm.get('passwordControl')!.value,
+        "",
+        ""
       )
       if (this.itemId === undefined) this.criarItem(usuarioParaSalvar);
     }else{
@@ -133,10 +135,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.usuarioForm.get('passwordControl')!.value,
       )
       if(JSON.parse(String(localStorage.getItem("users")))){
+        let matchUsuario = false;
         let usuarios = JSON.parse(String(localStorage.getItem("users")))
         usuarios.forEach((usuario:userModel) => {
           if(usuario.email == usuarioParaLogar.email && usuario.password == usuarioParaLogar.password){
-
+            matchUsuario = true;
             this.usuarioLogado = new userLogadoModel(
               usuario.id,
               usuario.tipo,
@@ -146,11 +149,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
             this.route.navigate(['/agencia-emprego'])
           }
-          else{
-            this.usuarioForm.get('nomeControl')?.enable();
-            alert("Usuario invalido")
-          }
         });
+        if(matchUsuario == false){
+          alert('Usuario não cadastrado')
+        }
       }
       else{
         this.usuarioForm.get('nomeControl')?.enable();

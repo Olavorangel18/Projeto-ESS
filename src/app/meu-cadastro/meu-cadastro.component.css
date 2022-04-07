@@ -25,7 +25,6 @@ h2{
 .inputs-pessoa{
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .inputs-empresa{
