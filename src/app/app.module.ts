@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MeuCadastroComponent } from './meu-cadastro/meu-cadastro.component';
@@ -28,7 +28,9 @@ import { IgxSwitchModule } from 'igniteui-angular';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    IgxSwitchModule
+    IgxSwitchModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

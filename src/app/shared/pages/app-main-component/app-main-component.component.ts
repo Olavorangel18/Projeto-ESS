@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-app-main-component',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppMainComponentComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+
 
   //Controladores menu
 
@@ -93,6 +96,10 @@ export class AppMainComponentComponent implements OnInit {
       this.strokeNotificacao ="#41B8D2";
 
     }
+  }
+
+  goToListagem(){
+    this.router.navigate(["agencia-emprego/vagas"])
   }
 
 }

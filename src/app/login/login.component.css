@@ -73,12 +73,13 @@ p{
   margin-bottom: 30px;
   margin-top: 30px;
   max-width: 475px;
+  color: #41B8D2;
+  cursor: pointer;
 }
 
 .tipo-usuario .pessoa{
   width: 50%;
   border-radius: 9999px;
-  background:#41B8D2 ;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -90,6 +91,11 @@ p{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.ativo{
+  background:#41B8D2 ;
+  color: white;
 }
 
 .cadastrar{
