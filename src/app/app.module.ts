@@ -12,9 +12,10 @@ import { LoginComponent } from './login/login.component';
 import { AppMainComponentComponent } from './shared/pages/app-main-component/app-main-component.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IgxSwitchModule } from 'igniteui-angular';
+import { CriacaoVagaComponent } from './criacao-vaga/criacao-vaga.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     MeuCadastroComponent,
     ListagemVagasComponent,
@@ -22,8 +23,9 @@ import { IgxSwitchModule } from 'igniteui-angular';
     NotificacaoComponent,
     CandidatoVagaComponent,
     LoginComponent,
-    AppMainComponentComponent
-  ],
+    AppMainComponentComponent,
+      CriacaoVagaComponent
+   ],
   imports: [
     BrowserModule,
     AppRoutingModule,

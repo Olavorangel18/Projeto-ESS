@@ -1,6 +1,7 @@
 import { userLogadoModel } from './../login/model/userLogado.model';
 import { empresaModel } from './../meu-cadastro/models/empresa.model';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listagem-vagas',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListagemVagasComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
@@ -23,7 +24,8 @@ export class ListagemVagasComponent implements OnInit {
   }
 
   acharSwitch(){
-    let listaVagasSwitchAtivados:HTMLElement[] = [];
+    if(this.tipoUsuario!.tipo =="pessoa"){
+      let listaVagasSwitchAtivados:HTMLElement[] = [];
     let listaVagasSwitchInativos:HTMLElement[] = [];
     document.querySelectorAll<HTMLElement>("li").forEach(
       vaga => {
@@ -42,11 +44,18 @@ export class ListagemVagasComponent implements OnInit {
         vaga.children[0].innerHTML = "não candidatado"
         vaga.children[0].classList.remove('candidatado')
       })
+    }
+
   }
 
   pegarTipoUsuario(){
     let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
     this.tipoUsuario = JSON.parse(usuarioLogado)
+  }
+
+  criarVaga(){
+    console.log("Oi")
+    this.router.navigate(['agencia-emprego/criar-vaga'])
   }
 
 

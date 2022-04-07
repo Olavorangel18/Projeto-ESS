@@ -1,3 +1,4 @@
+import { CriacaoVagaComponent } from './criacao-vaga/criacao-vaga.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppMainComponentComponent } from './shared/pages/app-main-component/app-main-component.component';
@@ -16,6 +17,7 @@ const routes: Routes = [
     {path:'', component:MeuCadastroComponent},
     {path:'vagas', component:ListagemVagasComponent},
     {path:'notificacao', component:NotificacaoComponent},
+    {path:'criar-vaga', component:CriacaoVagaComponent},
     {
       path:'vagas-empresa',
       children:[
