@@ -29,6 +29,7 @@ export class ListagemVagasComponent implements OnInit {
     let usuarios:userModel[] = []
     let userID:string | undefined = ""
     let usuarioLogado:userLogadoModel = JSON.parse(String(sessionStorage.getItem('usuarioLogado')))
+    let isCadastrado:boolean = false;
     userID = usuarioLogado.id
 
      if(e.checked){
@@ -41,7 +42,8 @@ export class ListagemVagasComponent implements OnInit {
       });
 
       JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel)=> {
-          if(usuario.id == userID && vaga){
+         if(usuario.id == userID && vaga){
+           if(usuario.cadastroPessoa){
             usuario.vagas.push(vaga)
             usuarios.push(usuario)
             JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
@@ -51,14 +53,23 @@ export class ListagemVagasComponent implements OnInit {
               }else{
                 vagas.push(vaguinha)
               }
-          });
+            });
+            isCadastrado=true
+           }
+           else{
+             alert('Usuario não completou cadastro')
+             this.router.navigate(["/agencia-emprego"])
+           }
           }else{
             usuarios.push(usuario)
           }
       });
 
-      localStorage.setItem('users',JSON.stringify(usuarios))
-      localStorage.setItem('vagas',JSON.stringify(vagas))
+      if(isCadastrado){
+        localStorage.setItem('users',JSON.stringify(usuarios))
+        localStorage.setItem('vagas',JSON.stringify(vagas))
+      }
+
       this.pintarLabelCandidato(vagaID)
      }else{
 
