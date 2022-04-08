@@ -1,0 +1,140 @@
+
+.circulo{
+  display: flex;
+  width: 70px;
+  height: 70px;
+  border-radius: 99999px;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #FFFFFF;
+  background-color: #41B8D2;
+}
+
+.filter{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.vaga{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+svg{
+  cursor: pointer;
+}
+
+
+ul{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+li{
+  width: 80%;
+  border-bottom: 4px solid #41b8d2;
+  margin-bottom: 40px;
+  max-width: 900px;
+}
+
+.descricao{
+  margin-bottom: 20px;
+}
+.informacao-vaga{
+  display: flex;
+  justify-content: space-between;
+}
+
+.informacao-vaga p{
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 20px;
+  color: #C4C4C4;
+}
+
+.informacao-vaga{
+  margin-bottom: 10px;
+  flex-direction: column;
+  width: 100%;
+}
+
+.container-label-informacao{
+  display: flex;
+  gap: 30px;
+  margin-right: 15%;
+}
+
+.inscricao-label{
+  display: flex;
+  background-color: #E5E5E5;
+  color:#B8B0B0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  border-radius: 100px;
+  width: 120px;
+  justify-content: center;
+  height: 20px;
+  align-items: center;
+}
+
+.empresa-vaga{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 45px;
+  line-height: 68px;
+  color: #41B8D2;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.label{
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 100px;
+  color: white;
+  font-weight: 300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  min-width: 70px;
+}
+
+.expandir{
+  width: 130px !important;
+}
+
+.tipo{
+  background-color: #41D272;
+}
+
+.modalidade{
+  background-color: #41B8D2;
+}
+
+.senioridade{
+  background-color: #6F41D2;
+}
+
+.candidatado{
+  background-color:#41B8D2;
+  color: #FFFFFF;
+}
+
+#candidatado{
+  background-color:#41B8D2;
+  color: #FFFFFF;
+}

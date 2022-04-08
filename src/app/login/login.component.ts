@@ -71,8 +71,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.usuarioForm.get('nomeControl')!.value,
         this.usuarioForm.get('emailControl')!.value,
         this.usuarioForm.get('passwordControl')!.value,
-        "",
-        "",
+        undefined,
+        undefined,
         "",
         [],
       )

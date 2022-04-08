@@ -1,1 +1,16 @@
-<p>candidato-vaga works!</p>
+<div class="container-listagem-vagas">
+  <ul>
+    <li *ngFor="let pessoa of pessoasVaga">
+      <h2>{{pessoa.nome}}</h2>
+      <p class="descricao">{{pessoa.email}}</p>
+      <div class="informacao-vaga">
+        <p>Pretensão salarial: R$ {{pessoa.cadastroPessoa?.salario}}</p>
+        <div class="container-label-informacao">
+          <div class="label tipo">{{pessoa.cadastroPessoa?.area}}</div>
+          <div class="label modalidade">{{pessoa.cadastroPessoa?.escolaridade}}</div>
+          <div class="label senioridade">{{pessoa.cadastroPessoa?.senioridade}}</div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

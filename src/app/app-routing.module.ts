@@ -24,7 +24,7 @@ const routes: Routes = [
       path:'vagas-empresa',
       children:[
         {path:'', component:ListagemVagasEmpresasComponent},
-        {path:'candidato', component:CandidatoVagaComponent}
+        {path:'candidatos/:id', component:CandidatoVagaComponent}
       ]
     },
   ]},

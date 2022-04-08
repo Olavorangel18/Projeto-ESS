@@ -118,8 +118,12 @@ export class AppMainComponentComponent implements OnInit {
   }
 
   goToListagem(){
+    console.log(this.tipoUsuario?.tipo)
     if(this.tipoUsuario?.tipo =="pessoa"){
       this.router.navigate(["agencia-emprego/selecionados"])
+    }
+    else{
+      this.router.navigate(["agencia-emprego/vagas-empresa"])
     }
   }
 
