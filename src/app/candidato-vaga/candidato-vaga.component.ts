@@ -1,6 +1,7 @@
+import { userLogadoModel } from './../login/model/userLogado.model';
 import { vagaModel } from './../criacao-vaga/models/vaga.models';
 import { userModel } from './../login/model/user.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,14 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CandidatoVagaComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute, private router:Router) {
   this.vagaID = this.activatedRoute.snapshot.params["id"];
   }
 
   vagaID:string = ""
   pessoasVaga:userModel[]= []
+  tipoUsuario:userLogadoModel|undefined;
 
   ngOnInit(): void {
+    this.pegarTipoUsuario();
+    this.redirecionamentoUsuarioTipoErrado();
     this.recuperarPessoasByVagaID();
   }
 
@@ -29,6 +33,18 @@ export class CandidatoVagaComponent implements OnInit {
         }
       });
     }
+  }
+
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="pessoa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
+  }
+
+  pegarTipoUsuario(){
+    let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
+    this.tipoUsuario = JSON.parse(usuarioLogado)
   }
 
 }

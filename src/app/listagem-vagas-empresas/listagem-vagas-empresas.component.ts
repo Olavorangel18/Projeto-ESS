@@ -19,6 +19,7 @@ export class ListagemVagasEmpresasComponent implements OnInit {
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
+    this.redirecionamentoUsuarioTipoErrado();
     this.recuperarVagaPelaEmpresa();
   }
 
@@ -50,6 +51,12 @@ export class ListagemVagasEmpresasComponent implements OnInit {
     this.router.navigate([`agencia-emprego/vagas-empresa/candidatos`, e.currentTarget.id])
   }
 
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="pessoa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
+  }
 
 
 }

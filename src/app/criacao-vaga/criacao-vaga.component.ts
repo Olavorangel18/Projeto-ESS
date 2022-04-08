@@ -37,6 +37,7 @@ export class CriacaoVagaComponent implements OnInit {
         this.vagas.push(vaga)
       });
     }
+    this.redirecionamentoUsuarioTipoErrado();
   }
 
   pegarTipoUsuario(){
@@ -73,6 +74,13 @@ export class CriacaoVagaComponent implements OnInit {
 
   voltar(){
     this.router.navigate(['agencia-emprego/vagas'])
+  }
+
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="pessoa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
   }
 
   atualizarVaga(){

@@ -16,6 +16,7 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
+    this.redirecionamentoUsuarioTipoErrado();
     this.listarVagas();
   }
 
@@ -131,6 +132,13 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
     }
   }
 
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="empresa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
+  }
+
   criarVaga(){
     this.router.navigate(['agencia-emprego/criar-vaga'])
   }
@@ -143,10 +151,6 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
         this.listaVagas.push(vaga)
       });
     }
-  }
-
-  listarVagasSelecionado(){
-    console.log(this.listaVagas)
   }
 
   acharID(id:String, id2:string){
