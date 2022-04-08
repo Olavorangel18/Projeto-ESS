@@ -6,11 +6,11 @@ import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-listagem-vagas',
-  templateUrl: './listagem-vagas.component.html',
-  styleUrls: ['./listagem-vagas.component.scss']
+  selector: 'app-listagem-vaga-selecionados',
+  templateUrl: './listagem-vaga-selecionados.component.html',
+  styleUrls: ['./listagem-vaga-selecionados.component.scss']
 })
-export class ListagemVagasComponent implements OnInit {
+export class ListagemVagaSelecionadosComponent implements OnInit {
 
   constructor(private router:Router) { }
 
@@ -136,6 +136,7 @@ export class ListagemVagasComponent implements OnInit {
   }
 
   listarVagas(){
+    this.listaVagas = []
     let vagas = localStorage.getItem('vagas')
     if(vagas){
       JSON.parse(vagas).forEach((vaga:vagaModel) => {

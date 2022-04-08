@@ -8,6 +8,7 @@ import { ListagemVagasEmpresasComponent } from './listagem-vagas-empresas/listag
 import { NotificacaoComponent } from './notificacao/notificacao.component';
 import { CandidatoVagaComponent } from './candidato-vaga/candidato-vaga.component';
 import { LoginComponent } from './login/login.component';
+import { ListagemVagaSelecionadosComponent } from './listagem-vaga-selecionados/listagem-vaga-selecionados.component';
 
 const routes: Routes = [
   {path:'', component:LoginComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   children:[
     {path:'', component:MeuCadastroComponent},
     {path:'vagas', component:ListagemVagasComponent},
+    {path:'selecionados', component:ListagemVagaSelecionadosComponent},
     {path:'notificacao', component:NotificacaoComponent},
     {path:'criar-vaga', component:CriacaoVagaComponent},
     {

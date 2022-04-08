@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ListagemVagasComponent } from './../../../listagem-vagas/listagem-vagas.component';
+import { userLogadoModel } from './../../../login/model/userLogado.model';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { ViewChild } from '@angular/core';
+
 
 @Component({
   selector: 'app-app-main-component',
@@ -11,6 +15,9 @@ export class AppMainComponentComponent implements OnInit {
   constructor(private router: Router) { }
 
 
+  tipoUsuario: userLogadoModel|undefined;
+  @Output() listaSelecionadosEmitter: EventEmitter<any> = new EventEmitter();
+  listagemButtonClicked:boolean = false;
 
   //Controladores menu
 
@@ -29,6 +36,7 @@ export class AppMainComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.inicializarMenu();
+    this.pegarTipoUsuario();
     this.verificarExistenciaUsuarioLogado();
   }
 
@@ -110,11 +118,19 @@ export class AppMainComponentComponent implements OnInit {
   }
 
   goToListagem(){
-    this.router.navigate(["agencia-emprego/vagas"])
+    if(this.tipoUsuario?.tipo =="pessoa"){
+      this.router.navigate(["agencia-emprego/selecionados"])
+    }
   }
 
   deslogar(){
     sessionStorage.removeItem('usuarioLogado')
   }
 
+  pegarTipoUsuario(){
+    if(sessionStorage.getItem('usuarioLogado')){
+      let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
+      this.tipoUsuario = JSON.parse(usuarioLogado)
+    }
+  }
 }

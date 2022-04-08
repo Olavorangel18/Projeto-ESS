@@ -9,8 +9,8 @@
     </div>
   </div>
   <ul>
-    <li *ngFor="let vaga of listaVagas">
-          <div *ngIf="tipoUsuario!.tipo == 'pessoa'" [id]="verSwitchLabel(vaga) ? 'candidatado' : ''" class="inscricao-label {{vaga.id}}">{{verSwitchLabel(vaga) ? "candidatado" : "não candidatado"}}</div>
+    <li *ngFor="let vaga of listaVagas" class="{{verSwitchLabel(vaga) ? 'show' : 'disable'}}">
+      <div *ngIf="tipoUsuario!.tipo == 'pessoa'" [id]="verSwitchLabel(vaga) ? 'candidatado' : ''" class="inscricao-label {{vaga.id}}">{{verSwitchLabel(vaga) ? "candidatado" : "não candidatado"}}</div>
       <h2>{{vaga.nome}}</h2>
       <p class="descricao">{{vaga.descricao}}</p>
       <div class="informacao-vaga">
@@ -20,7 +20,7 @@
           <div class="label modalidade">{{vaga.modalidade}}</div>
           <div class="label senioridade">{{vaga.senioridade}}</div>
         </div>
-        <igx-switch [checked]="verSwitchLabel(vaga)" id={{vaga.id}}  class={{vaga.idEmpresa}} (change)="mudarSituacaoInscricao($event)" [disabled]="tipoUsuario!.tipo == 'empresa' ? true : false"></igx-switch>
+        <igx-switch [checked]="verSwitchLabel(vaga)" id={{vaga.id}}  class={{vaga.idEmpresa}} (change)="mudarSituacaoInscricao($event);listarVagas()" [disabled]="tipoUsuario!.tipo == 'empresa' ? true : false"></igx-switch>
       </div>
     </li>
   </ul>
