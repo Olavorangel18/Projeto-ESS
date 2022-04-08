@@ -9,32 +9,18 @@
     </div>
   </div>
   <ul>
-    <li>
-      <div *ngIf="tipoUsuario!.tipo == 'pessoa'" class="inscricao-label">Não Candidatado</div>
-      <h2>Titulo</h2>
-      <p class="descricao">Descrição</p>
+    <li *ngFor="let vaga of listaVagas">
+          <div *ngIf="tipoUsuario!.tipo == 'pessoa'" [id]="verLabel(vaga) ? 'candidatado' : ''" class="inscricao-label {{vaga.id}}">{{verLabel(vaga) ? "candidatado" : "não candidatado"}}</div>
+      <h2>{{vaga.nome}}</h2>
+      <p class="descricao">{{vaga.descricao}}</p>
       <div class="informacao-vaga">
-        <p>Faixa Salarial: R$ 5000</p>
+        <p>Faixa Salarial: R$ {{vaga.salario}}</p>
         <div class="container-label-informacao">
-          <div class="label tipo">Tech</div>
-          <div class="label modalidade">Hibrido</div>
-          <div class="label senioridade">Hibrido</div>
+          <div class="label tipo">{{vaga.area}}</div>
+          <div class="label modalidade">{{vaga.modalidade}}</div>
+          <div class="label senioridade">{{vaga.senioridade}}</div>
         </div>
-        <igx-switch (change)="mudarSituacaoInscricao($event)" [disabled]="tipoUsuario!.tipo == 'empresa' ? true : false"></igx-switch>
-      </div>
-    </li>
-    <li>
-      <div *ngIf="tipoUsuario!.tipo == 'pessoa'" class="inscricao-label">Não Candidatado</div>
-      <h2>Titulo</h2>
-      <p class="descricao">Descrição</p>
-      <div class="informacao-vaga">
-        <p>Faixa Salarial: R$ 5000</p>
-        <div class="container-label-informacao">
-          <div class="label tipo">Tech</div>
-          <div class="label modalidade">Hibrido</div>
-          <div class="label senioridade">Hibrido</div>
-        </div>
-        <igx-switch (change)="mudarSituacaoInscricao($event)" [disabled]="tipoUsuario!.tipo == 'empresa' ? true : false"></igx-switch>
+        <igx-switch [checked]="verSwitchLabel(vaga)" id={{vaga.id}}  class={{vaga.idEmpresa}} (change)="mudarSituacaoInscricao($event)" [disabled]="tipoUsuario!.tipo == 'empresa' ? true : false"></igx-switch>
       </div>
     </li>
   </ul>

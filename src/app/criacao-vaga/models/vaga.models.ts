@@ -9,9 +9,11 @@ export class vagaModel {
   public descricao:string;
   public senioridade:string;
   public idEmpresa:string | undefined;
-  public pessoas:userModel[] | String;
+  public pessoas:userModel[];
+  public cadastrado:boolean | String;
 
-  constructor(id:string, nome:string, modalidade: string,salario:string, area: string,descricao:string, senioridade: string, idEmpresa:string|undefined, pessoas:userModel[]|String) {
+  constructor(id:string, nome:string, modalidade: string,salario:string, area: string,descricao:string,
+    senioridade: string, idEmpresa:string|undefined, pessoas:userModel[], cadastrado:boolean|String) {
     this.id=id
     this.nome = nome
     this.modalidade = modalidade
@@ -21,6 +23,7 @@ export class vagaModel {
     this.senioridade = senioridade
     this.idEmpresa = idEmpresa
     this.pessoas = pessoas
+    this.cadastrado = cadastrado
   }
 
 }

@@ -72,7 +72,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.usuarioForm.get('emailControl')!.value,
         this.usuarioForm.get('passwordControl')!.value,
         "",
-        ""
+        "",
+        "",
+        [],
       )
       if (this.itemId === undefined) this.criarItem(usuarioParaSalvar);
     }else{

@@ -55,6 +55,7 @@ export class CriacaoVagaComponent implements OnInit {
         this.vagaForm.get('descricaoControl')!.value,
         this.vagaForm.get('senioridadeControl')!.value,
         this.tipoUsuario?.id,
+        [],
         ""
       )
       if (this.itemId === undefined) this.criarItem(vagaParaSalvar);

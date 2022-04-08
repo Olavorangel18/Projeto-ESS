@@ -75,7 +75,7 @@ ul{
 
 li{
   width: 80%;
-  box-shadow: 0px 4px 0px #41B8D2;
+  border-bottom: 4px solid #41b8d2;
   margin-bottom: 40px;
   max-width: 900px;
 }
@@ -162,3 +162,7 @@ h2{
   color: #FFFFFF;
 }
 
+#candidatado{
+  background-color:#41B8D2;
+  color: #FFFFFF;
+}
