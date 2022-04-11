@@ -1,7 +1,11 @@
 import { ListagemVagasComponent } from './../../../listagem-vagas/listagem-vagas.component';
+import { MeuCadastroComponent } from 'src/app/meu-cadastro/meu-cadastro.component';
+import { ListagemVagaSelecionadosComponent } from 'src/app/listagem-vaga-selecionados/listagem-vaga-selecionados.component';
+import { ListagemVagasEmpresasComponent } from 'src/app/listagem-vagas-empresas/listagem-vagas-empresas.component';
+import { NotificacaoComponent } from 'src/app/notificacao/notificacao.component';
 import { userLogadoModel } from './../../../login/model/userLogado.model';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router} from '@angular/router';
 import { ViewChild } from '@angular/core';
 
 
@@ -35,14 +39,27 @@ export class AppMainComponentComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.inicializarMenu();
     this.pegarTipoUsuario();
     this.verificarExistenciaUsuarioLogado();
   }
 
-  inicializarMenu(){
-    this.backgroundMenuUser = "background-branco";
-    this.strokeUser="#41B8D2"
+  onActivate(e:any){
+    if(e instanceof ListagemVagasComponent){
+      this.backgroundMenuListagem = "background-branco";
+      this.strokeListagem = "#41B8D2";
+    }
+    else if(e instanceof MeuCadastroComponent){
+      this.backgroundMenuUser = "background-branco";
+      this.strokeUser="#41B8D2";
+    }
+    else if(e instanceof ListagemVagaSelecionadosComponent || ListagemVagasEmpresasComponent){
+      this.backgroundMenuListagemSelecionado = "background-branco";
+      this.strokeListagemSelecionado = "#41B8D2";
+    }
+    else if(e instanceof NotificacaoComponent){
+      this.backgroundMenuNotificacao = "background-branco";
+      this.strokeNotificacao ="#41B8D2";
+    }
   }
 
   pintarMenu(e:any){
