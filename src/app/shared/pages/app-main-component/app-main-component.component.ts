@@ -47,8 +47,8 @@ export class AppMainComponentComponent implements OnInit {
 
     if(e instanceof ListagemVagasComponent) this.ativarListagem()
     else if(e instanceof MeuCadastroComponent) this.ativarMeusDados()
-    else if(e instanceof ListagemVagaSelecionadosComponent || ListagemVagasEmpresasComponent) this.ativarListagemSelecionada()
     else if(e instanceof NotificacaoComponent) this.ativarNotificacao()
+    else this.ativarListagemSelecionada()
 
   }
 
