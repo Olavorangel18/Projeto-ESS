@@ -13,15 +13,6 @@ import { userModel } from '../login/model/user.model';
 })
 export class MeuCadastroComponent implements OnInit {
 
-  constructor() { }
-
-  ngOnInit(): void {
-    this.desabilitarEmpresaForm()
-    this.habilitarPessoaForm()
-    this.descobrirTipoUsuario()
-    this.isEmpresa();
-  }
-
    // controles do formulario
    usuarioForm: FormGroup = new FormGroup({
     nomeControl: new FormControl('', [Validators.required]),
@@ -41,16 +32,30 @@ export class MeuCadastroComponent implements OnInit {
 
   });
 
-  dados:string="Meus dados"
+  tituloUsuario:string="Meus dados"
 
+  //Controlador tipo de usuario
   usuario = {
-    empresa:true,
+    empresa:false,
     pessoa:false,
   };
 
+  constructor() { }
+
+  ngOnInit(): void {
+    this.desabilitarEmpresaForm()
+    this.habilitarPessoaForm()
+    this.descobrirTipoUsuario()
+    this.isEmpresa();
+  }
+
+  //********************************************************
+  //              Descobrir tipo usuario
+  //********************************************************
+
   isEmpresa(){
     if(this.usuario.empresa){
-      this.dados = "Minha empresa"
+      this.tituloUsuario = "Minha empresa"
       this.desabilitarPessoaForm()
       this.habilitarEmpresaForm()
     }
@@ -67,6 +72,10 @@ export class MeuCadastroComponent implements OnInit {
       this.usuario.pessoa = true
     }
   }
+
+  //********************************************************
+  //                      Forms
+  //********************************************************
 
   desabilitarPessoaForm(){
     this.usuarioForm.get('escolaridadeControl')?.disable();
@@ -97,10 +106,13 @@ export class MeuCadastroComponent implements OnInit {
   }
 
   completarUsuario(){
+
     let id = ""
     let usuarios:userModel[] = []
+
     if(sessionStorage.getItem('usuarioLogado')) id = JSON.parse(String(sessionStorage.getItem('usuarioLogado'))).id
 
+    // Pegar informações que está nos formularios e salvar (pessoa)
     if(this.usuario.empresa && this.usuarioForm.valid){
       let empresaInformacao:empresaModel = new empresaModel(
         this.usuarioForm.get('cnpjControl')!.value,
@@ -118,6 +130,8 @@ export class MeuCadastroComponent implements OnInit {
       });
       localStorage.setItem('users', JSON.stringify(usuarios))
     }
+
+    // Pegar informações que está nos formularios e salvar (empresa)
     else if(this.usuario.pessoa && this.usuarioForm.valid){
       let pessoaInformmacao:pessoaModel = new pessoaModel(
         this.usuarioForm.get('escolaridadeControl')!.value,
@@ -140,18 +154,3 @@ export class MeuCadastroComponent implements OnInit {
   }
 
 }
-
-/* if(this.usuarioForm.valid && this.logIn == false){
-  let usuarioParaSalvar:userModel = new userModel(
-    uuidv4(),
-    document.querySelector(".ativo")!.id,
-    this.usuarioForm.get('nomeControl')!.value,
-    this.usuarioForm.get('emailControl')!.value,
-    this.usuarioForm.get('passwordControl')!.value,
-    undefined,
-    undefined
-  )
-  if (this.itemId === undefined) this.criarItem(usuarioParaSalvar);
-}else{
-  this.logar()
-} */
