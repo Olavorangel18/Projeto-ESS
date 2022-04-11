@@ -166,3 +166,19 @@ h2{
   background-color:#41B8D2;
   color: #FFFFFF;
 }
+
+@media screen and (max-width: 1100px) {
+
+  .informacao-vaga{
+    flex-direction: column !important;
+    row-gap: 20px !important;
+}
+}
+
+@media screen and (max-width: 600px) {
+  .container-label-informacao{
+    flex-direction: column !important;
+    row-gap: 20px !important;
+    width: 100px;
+  }
+}
