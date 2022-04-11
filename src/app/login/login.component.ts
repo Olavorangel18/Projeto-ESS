@@ -13,20 +13,6 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  constructor(private route:Router) { }
-
-  ngOnInit(): void {
-    if(localStorage.getItem("users")){
-      JSON.parse(String(localStorage.getItem("users"))).forEach((element:userModel) => {
-        this.users.push(element)
-      });
-    }
-  }
-
-  ngOnDestroy(){
-    this.users = [];
-  }
-
   @Input() itemId: string | undefined;
 
   users: userModel[] = new Array();
@@ -46,7 +32,26 @@ export class LoginComponent implements OnInit, OnDestroy {
   //controlador de empresa
   empresaControl = "#41B8D2"
 
-  ativar(e:any){
+  constructor(private route:Router) { }
+
+  ngOnInit(): void {
+    if(localStorage.getItem("users")){
+      JSON.parse(String(localStorage.getItem("users"))).forEach((element:userModel) => {
+        this.users.push(element)
+      });
+    }
+  }
+
+  ngOnDestroy(){
+    this.users = [];
+  }
+
+
+  //********************************************************
+  //              Definir o tipo de usuario
+  //********************************************************
+
+  escolherTipoUsuario(e:any){
     if(e.currentTarget.id == "pessoa"){
       this.pessoaControl = "#FFFFFF"
       this.empresaControl = "#41B8D2"
@@ -62,6 +67,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.pessoaControl = "#FFFFFF"
     this.empresaControl = "#41B8D2"
   }
+
+  //********************************************************
+  //                    Criar Usuario
+  //********************************************************
 
   salvarUsuario(){
     if(this.usuarioForm.valid && this.logIn == false){
@@ -108,25 +117,21 @@ export class LoginComponent implements OnInit, OnDestroy {
       usuarioParaSalvar.nome
     )
     sessionStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado))
-    /*
-    this.service.criarTipoTreinamento(tipoTreinamentoParaCriar)
-        .subscribe(
-            response => {
-              this.loading = false;
-              this.recarregarTabelaEmitter.emit(`Tipo de treinamento de nome ${tipoTreinamentoParaCriar.nome} incluído com sucesso!`);
-            },
-            responseError => {
-              this.loading = false;
-              this.construirEExibirToggle(
-                'Erro ao tentar incluir o tipo de treinamento!',
-                responseError.status !== 500 ? responseError?.error?.message : '',
-                dangerAction
-              );
-            }
-        );
 
-    */
+  }
 
+  //********************************************************
+  //                        Login
+  //********************************************************
+
+  abrirFormLogin(){
+    if(this.logIn){
+      this.logIn = false;
+      this.inicializarTipoUsuario();
+      return
+    }
+    this.logIn=true
+    document.querySelectorAll("h2")[1].style.paddingBottom="30px";
   }
 
   logar(){
@@ -165,21 +170,5 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     this.usuarioForm.get('nomeControl')?.enable();
   }
-
-  abrirFormLogin(){
-    if(this.logIn){
-      this.logIn = false;
-      this.inicializarTipoUsuario();
-      return
-    }
-    this.logIn=true
-    document.querySelectorAll("h2")[1].style.paddingBottom="30px";
-  }
-
-  private atualizarItem(usuarioParaAtualizar:userModel){
-    console.log(usuarioParaAtualizar)
-  }
-
-
 
 }
