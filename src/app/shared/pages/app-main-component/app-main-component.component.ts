@@ -1,7 +1,5 @@
 import { ListagemVagasComponent } from './../../../listagem-vagas/listagem-vagas.component';
 import { MeuCadastroComponent } from 'src/app/meu-cadastro/meu-cadastro.component';
-import { ListagemVagaSelecionadosComponent } from 'src/app/listagem-vaga-selecionados/listagem-vaga-selecionados.component';
-import { ListagemVagasEmpresasComponent } from 'src/app/listagem-vagas-empresas/listagem-vagas-empresas.component';
 import { NotificacaoComponent } from 'src/app/notificacao/notificacao.component';
 import { userLogadoModel } from './../../../login/model/userLogado.model';
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
