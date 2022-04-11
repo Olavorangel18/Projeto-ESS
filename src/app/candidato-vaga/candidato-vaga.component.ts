@@ -11,19 +11,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CandidatoVagaComponent implements OnInit {
 
-  constructor(private activatedRoute: ActivatedRoute, private router:Router) {
-  this.vagaID = this.activatedRoute.snapshot.params["id"];
-  }
-
   vagaID:string = ""
   pessoasVaga:userModel[]= []
   tipoUsuario:userLogadoModel|undefined;
+
+  constructor(private activatedRoute: ActivatedRoute, private router:Router) {
+  this.vagaID = this.activatedRoute.snapshot.params["id"];
+  }
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
     this.redirecionamentoUsuarioTipoErrado();
     this.recuperarPessoasByVagaID();
   }
+
+  //********************************************************
+  //                   Autenticação
+  //********************************************************
+
+  pegarTipoUsuario(){
+    let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
+    this.tipoUsuario = JSON.parse(usuarioLogado)
+  }
+
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="pessoa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
+  }
+
+  //********************************************************
+  //                Listagem das pessoas
+  //********************************************************
 
   recuperarPessoasByVagaID(){
     if(localStorage.getItem('vagas')){
@@ -35,16 +55,5 @@ export class CandidatoVagaComponent implements OnInit {
     }
   }
 
-  redirecionamentoUsuarioTipoErrado(){
-    if(this.tipoUsuario!.tipo=="pessoa"){
-      alert('Operação invalida')
-      this.router.navigate(['/agencia-emprego'])
-    }
-  }
-
-  pegarTipoUsuario(){
-    let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
-    this.tipoUsuario = JSON.parse(usuarioLogado)
-  }
 
 }

@@ -40,10 +40,25 @@ export class CriacaoVagaComponent implements OnInit {
     this.redirecionamentoUsuarioTipoErrado();
   }
 
+  //********************************************************
+  //                   Autenticação
+  //********************************************************
+
   pegarTipoUsuario(){
     let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
     this.tipoUsuario = JSON.parse(usuarioLogado)
   }
+
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="pessoa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
+  }
+
+  //********************************************************
+  //                  Criar Vaga
+  //********************************************************
 
   cadastrarVaga(){
     if(this.vagaForm.valid){
@@ -60,8 +75,6 @@ export class CriacaoVagaComponent implements OnInit {
         ""
       )
       if (this.itemId === undefined) this.criarItem(vagaParaSalvar);
-    }else{
-      this.atualizarVaga()
     }
   }
 
@@ -74,17 +87,6 @@ export class CriacaoVagaComponent implements OnInit {
 
   voltar(){
     this.router.navigate(['agencia-emprego/vagas'])
-  }
-
-  redirecionamentoUsuarioTipoErrado(){
-    if(this.tipoUsuario!.tipo=="pessoa"){
-      alert('Operação invalida')
-      this.router.navigate(['/agencia-emprego'])
-    }
-  }
-
-  atualizarVaga(){
-
   }
 
 }

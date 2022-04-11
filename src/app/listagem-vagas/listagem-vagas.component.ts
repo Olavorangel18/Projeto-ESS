@@ -12,6 +12,11 @@ import { Router } from '@angular/router';
 })
 export class ListagemVagasComponent implements OnInit {
 
+  tipoUsuario: userLogadoModel|undefined
+
+  //Usado para renderizar as listas no html
+  listaVagas: vagaModel[] = []
+
   constructor(private router:Router) { }
 
   ngOnInit(): void {
@@ -19,8 +24,20 @@ export class ListagemVagasComponent implements OnInit {
     this.listarVagas();
   }
 
-  tipoUsuario: userLogadoModel|undefined;
-  listaVagas: vagaModel[] = []
+  //********************************************************
+  //                  Autenticação
+  //********************************************************
+
+  pegarTipoUsuario(){
+    if(sessionStorage.getItem('usuarioLogado')){
+      let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
+      this.tipoUsuario = JSON.parse(usuarioLogado)
+    }
+  }
+
+  //********************************************************
+  //            Descandidatar/Candidatar vaga
+  //********************************************************
 
   mudarSituacaoInscricao(e:any){
     let vagaID = e.switch.id
@@ -34,24 +51,26 @@ export class ListagemVagasComponent implements OnInit {
 
      if(e.checked){
 
-      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-          if(vaguinha.id == vagaID){
-            vaga = vaguinha
+      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
+          if(vagaSelecionada.id == vagaID){
+            vaga = vagaSelecionada
             vaga.cadastrado = true
           }
       });
 
+      //Guardar no objeto usuario a vaga que foi selecionada
       JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel)=> {
          if(usuario.id == userID && vaga){
            if(usuario.cadastroPessoa){
             usuario.vagas.push(vaga)
             usuarios.push(usuario)
-            JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-              if(vaguinha.id == vagaID){
-                vaguinha.pessoas.push(usuario)
-                vagas.push(vaguinha)
+            //Guardar no objeto vaga o usuario que o selecionou
+            JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
+              if(vagaSelecionada.id == vagaID){
+                vagaSelecionada.pessoas.push(usuario)
+                vagas.push(vagaSelecionada)
               }else{
-                vagas.push(vaguinha)
+                vagas.push(vagaSelecionada)
               }
             });
             isCadastrado=true
@@ -64,22 +83,24 @@ export class ListagemVagasComponent implements OnInit {
             usuarios.push(usuario)
           }
       });
-
+      //Se ocorreu o cadastro atualizar o banco de dados
       if(isCadastrado){
         localStorage.setItem('users',JSON.stringify(usuarios))
         localStorage.setItem('vagas',JSON.stringify(vagas))
       }
 
       this.pintarLabelCandidato(vagaID)
+
      }else{
 
-      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-          if(vaguinha.id == vagaID){
-            vaga = vaguinha
+      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
+          if(vagaSelecionada.id == vagaID){
+            vaga = vagaSelecionada
             vaga.cadastrado = true
           }
       });
 
+      //Retirar do objeto usuario a vaga que foi descelecionada
       JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel)=> {
         if(usuario.id == userID && vaga){
           let indexUsuario:number = -1
@@ -93,20 +114,21 @@ export class ListagemVagasComponent implements OnInit {
           }
           usuarios.push(usuario)
 
-          JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-            if(vaguinha.id == vagaID){
+          //Retirar do objeto vaga o usuario que o descelecionou
+          JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
+            if(vagaSelecionada.id == vagaID){
               let indexVaga:number = 0
-              vaguinha.pessoas.forEach((pessoa:userModel,index) => {
+              vagaSelecionada.pessoas.forEach((pessoa:userModel,index) => {
                 if(pessoa.id == this.tipoUsuario?.id){
                   indexVaga = index
                 }
               })
               if(indexVaga> -1){
-                vaguinha.pessoas.splice(indexVaga,1)
+                vagaSelecionada.pessoas.splice(indexVaga,1)
               }
-              vagas.push(vaguinha)
+              vagas.push(vagaSelecionada)
             }else{
-              vagas.push(vaguinha)
+              vagas.push(vagaSelecionada)
             }
 
         });
@@ -135,12 +157,13 @@ export class ListagemVagasComponent implements OnInit {
    label[0].innerHTML="não candidatado"
   }
 
-  pegarTipoUsuario(){
-    if(sessionStorage.getItem('usuarioLogado')){
-      let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
-      this.tipoUsuario = JSON.parse(usuarioLogado)
-    }
+  verSwitchLabel(vaga:vagaModel){
+    return vaga.pessoas.find(pessoa => pessoa.id == this.tipoUsuario?.id) ? true : false
   }
+
+  //********************************************************
+  //              Criação/Listagem de vagas
+  //********************************************************
 
   criarVaga(){
     this.router.navigate(['agencia-emprego/criar-vaga'])
@@ -153,18 +176,6 @@ export class ListagemVagasComponent implements OnInit {
         this.listaVagas.push(vaga)
       });
     }
-  }
-
-  listarVagasSelecionado(){
-    console.log(this.listaVagas)
-  }
-
-  acharID(id:String, id2:string){
-    return id == id2
-  }
-
-  verSwitchLabel(vaga:vagaModel){
-    return vaga.pessoas.find(pessoa => pessoa.id == this.tipoUsuario?.id) ? true : false
   }
 
 }

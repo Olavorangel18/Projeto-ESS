@@ -1,7 +1,6 @@
 import { userModel } from './../login/model/user.model';
 import { vagaModel } from './../criacao-vaga/models/vaga.models';
 import { userLogadoModel } from './../login/model/userLogado.model';
-import { empresaModel } from './../meu-cadastro/models/empresa.model';
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -14,14 +13,19 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
 
   constructor(private router:Router) { }
 
+  tipoUsuario: userLogadoModel|undefined;
+  listaVagas: vagaModel[] = []
+
   ngOnInit(): void {
     this.pegarTipoUsuario();
     this.redirecionamentoUsuarioTipoErrado();
     this.listarVagas();
   }
 
-  tipoUsuario: userLogadoModel|undefined;
-  listaVagas: vagaModel[] = []
+
+  //********************************************************
+  //                Descandidatar vaga
+  //********************************************************
 
   mudarSituacaoInscricao(e:any){
     let vagaID = e.switch.id
@@ -32,36 +36,7 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
     let usuarioLogado:userLogadoModel = JSON.parse(String(sessionStorage.getItem('usuarioLogado')))
     userID = usuarioLogado.id
 
-     if(e.checked){
-
-      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-          if(vaguinha.id == vagaID){
-            vaga = vaguinha
-            vaga.cadastrado = true
-          }
-      });
-
-      JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel)=> {
-          if(usuario.id == userID && vaga){
-            usuario.vagas.push(vaga)
-            usuarios.push(usuario)
-            JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-              if(vaguinha.id == vagaID){
-                vaguinha.pessoas.push(usuario)
-                vagas.push(vaguinha)
-              }else{
-                vagas.push(vaguinha)
-              }
-          });
-          }else{
-            usuarios.push(usuario)
-          }
-      });
-
-      localStorage.setItem('users',JSON.stringify(usuarios))
-      localStorage.setItem('vagas',JSON.stringify(vagas))
-      this.pintarLabelCandidato(vagaID)
-     }else{
+    if(!e.checked){
 
       JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
           if(vaguinha.id == vagaID){
@@ -125,6 +100,14 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
    label[0].innerHTML="não candidatado"
   }
 
+  verSwitchLabel(vaga:vagaModel){
+    return vaga.pessoas.find(pessoa => pessoa.id == this.tipoUsuario?.id) ? true : false
+  }
+
+  //********************************************************
+  //                   Autenticação
+  //********************************************************
+
   pegarTipoUsuario(){
     if(sessionStorage.getItem('usuarioLogado')){
       let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
@@ -139,6 +122,10 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
     }
   }
 
+  //********************************************************
+  //              Criar/Listagem de vagas
+  //********************************************************
+
   criarVaga(){
     this.router.navigate(['agencia-emprego/criar-vaga'])
   }
@@ -151,14 +138,6 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
         this.listaVagas.push(vaga)
       });
     }
-  }
-
-  acharID(id:String, id2:string){
-    return id == id2
-  }
-
-  verSwitchLabel(vaga:vagaModel){
-    return vaga.pessoas.find(pessoa => pessoa.id == this.tipoUsuario?.id) ? true : false
   }
 
 }
