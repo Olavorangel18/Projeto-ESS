@@ -10,12 +10,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ListagemVagasEmpresasComponent implements OnInit {
 
+  tipoUsuario: userLogadoModel|undefined;
+  vagas:vagaModel[] = []
+
   constructor(private router:Router,private activatedRoute: ActivatedRoute) {
 
    }
-
-  tipoUsuario: userLogadoModel|undefined;
-  vagas:vagaModel[] = []
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
@@ -23,12 +23,27 @@ export class ListagemVagasEmpresasComponent implements OnInit {
     this.recuperarVagaPelaEmpresa();
   }
 
+  //********************************************************
+  //                    Autenticação
+  //********************************************************
+
   pegarTipoUsuario(){
     if(sessionStorage.getItem('usuarioLogado')){
       let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
       this.tipoUsuario = JSON.parse(usuarioLogado)
     }
   }
+
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="pessoa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
+  }
+
+  //********************************************************
+  //              Listagem de vagas por empresa
+  //********************************************************
 
   recuperarVagaPelaEmpresa(){
     this.vagas = []
@@ -43,6 +58,11 @@ export class ListagemVagasEmpresasComponent implements OnInit {
     }
   }
 
+
+  //********************************************************
+  //                    Roteamento
+  //********************************************************
+
   criarVaga(){
     this.router.navigate(['agencia-emprego/criar-vaga'])
   }
@@ -50,13 +70,5 @@ export class ListagemVagasEmpresasComponent implements OnInit {
   irParaListagemPessoas(e:any){
     this.router.navigate([`agencia-emprego/vagas-empresa/candidatos`, e.currentTarget.id])
   }
-
-  redirecionamentoUsuarioTipoErrado(){
-    if(this.tipoUsuario!.tipo=="pessoa"){
-      alert('Operação invalida')
-      this.router.navigate(['/agencia-emprego'])
-    }
-  }
-
 
 }
