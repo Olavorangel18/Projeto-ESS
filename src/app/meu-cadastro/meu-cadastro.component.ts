@@ -9,17 +9,17 @@ import { userModel } from '../login/model/user.model';
 @Component({
   selector: 'app-meu-cadastro',
   templateUrl: './meu-cadastro.component.html',
-  styleUrls: ['./meu-cadastro.component.css']
+  styleUrls: ['./meu-cadastro.component.scss']
 })
 export class MeuCadastroComponent implements OnInit {
 
    // controles do formulario
    usuarioForm: FormGroup = new FormGroup({
-    nomeControl: new FormControl('', [Validators.required]),
     emailControl: new FormControl('',[Validators.required, Validators.email]),
 
     //informação empresa
     cnpjControl:new FormControl('',[Validators.required]),
+    nomeControl: new FormControl('', [Validators.required]),
     localizacaoControl:new FormControl('',[Validators.required]),
     telefoneControl:new FormControl('',[Validators.required]),
     tipoEmpresaControl:new FormControl('',[Validators.required]),
@@ -28,6 +28,7 @@ export class MeuCadastroComponent implements OnInit {
     escolaridadeControl:new FormControl('',[Validators.required]),
     salarioControl:new FormControl('',[Validators.required]),
     areaControl:new FormControl('',[Validators.required]),
+    cpfControl: new FormControl('', [Validators.required]),
     senioridadeControl:new FormControl('',[Validators.required]),
 
   });
@@ -82,6 +83,7 @@ export class MeuCadastroComponent implements OnInit {
     this.usuarioForm.get('salarioControl')?.disable();
     this.usuarioForm.get('areaControl')?.disable();
     this.usuarioForm.get('senioridadeControl')?.disable();
+    this.usuarioForm.get('cpfControl')?.disable();
   }
 
   desabilitarEmpresaForm(){
@@ -89,6 +91,7 @@ export class MeuCadastroComponent implements OnInit {
     this.usuarioForm.get('localizacaoControl')?.disable();
     this.usuarioForm.get('telefoneControl')?.disable();
     this.usuarioForm.get('tipoEmpresaControl')?.disable();
+    this.usuarioForm.get('nomeControl')?.disable();
   }
 
   habilitarPessoaForm(){
@@ -96,6 +99,7 @@ export class MeuCadastroComponent implements OnInit {
     this.usuarioForm.get('salarioControl')?.enable();
     this.usuarioForm.get('areaControl')?.enable();
     this.usuarioForm.get('senioridadeControl')?.enable();
+    this.usuarioForm.get('cpfControl')?.enable();
   }
 
   habilitarEmpresaForm(){
@@ -103,6 +107,7 @@ export class MeuCadastroComponent implements OnInit {
     this.usuarioForm.get('localizacaoControl')?.enable();
     this.usuarioForm.get('telefoneControl')?.enable();
     this.usuarioForm.get('tipoEmpresaControl')?.enable();
+    this.usuarioForm.get('nomeControl')?.enable();
   }
 
   completarUsuario(){
@@ -119,6 +124,8 @@ export class MeuCadastroComponent implements OnInit {
         this.usuarioForm.get('localizacaoControl')!.value,
         this.usuarioForm.get('telefoneControl')!.value,
         this.usuarioForm.get('tipoEmpresaControl')!.value,
+        this.usuarioForm.get('nomeControl')!.value,
+        
       )
       JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel) => {
         if(usuario.id == id){
@@ -134,6 +141,7 @@ export class MeuCadastroComponent implements OnInit {
     // Pegar informações que está nos formularios e salvar (empresa)
     else if(this.usuario.pessoa && this.usuarioForm.valid){
       let pessoaInformmacao:pessoaModel = new pessoaModel(
+        this.usuarioForm.get('cpfControl')!.value,
         this.usuarioForm.get('escolaridadeControl')!.value,
         this.usuarioForm.get('salarioControl')!.value,
         this.usuarioForm.get('areaControl')!.value,

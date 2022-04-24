@@ -14,6 +14,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IgxSwitchModule } from 'igniteui-angular';
 import { CriacaoVagaComponent } from './criacao-vaga/criacao-vaga.component';
 import { ListagemVagaSelecionadosComponent } from './listagem-vaga-selecionados/listagem-vaga-selecionados.component';
+import { IgxSelectModule } from 'igniteui-angular';
+import { IgxInputGroupModule } from "igniteui-angular";
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { ListagemVagaSelecionadosComponent } from './listagem-vaga-selecionados/
     BrowserAnimationsModule,
     IgxSwitchModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    IgxSelectModule,
+    IgxInputGroupModule
   ],
   providers: [],
   bootstrap: [AppComponent]
