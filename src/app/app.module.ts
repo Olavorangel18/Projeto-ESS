@@ -16,6 +16,7 @@ import { CriacaoVagaComponent } from './criacao-vaga/criacao-vaga.component';
 import { ListagemVagaSelecionadosComponent } from './listagem-vaga-selecionados/listagem-vaga-selecionados.component';
 import { IgxSelectModule } from 'igniteui-angular';
 import { IgxInputGroupModule } from "igniteui-angular";
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { IgxInputGroupModule } from "igniteui-angular";
     FormsModule,
     ReactiveFormsModule,
     IgxSelectModule,
-    IgxInputGroupModule
+    IgxInputGroupModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
