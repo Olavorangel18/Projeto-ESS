@@ -110,6 +110,10 @@ export class MeuCadastroComponent implements OnInit {
     this.usuarioForm.get('nomeControl')?.enable();
   }
 
+  resetarUsuarioForm(){
+    this.usuarioForm.reset();
+  }
+
   completarUsuario(){
 
     let id = ""
@@ -136,6 +140,8 @@ export class MeuCadastroComponent implements OnInit {
         }
       });
       localStorage.setItem('users', JSON.stringify(usuarios))
+      this.resetarUsuarioForm()
+      alert("Atualização do cadastro feito com sucesso")
     }
 
     // Pegar informações que está nos formularios e salvar (empresa)
@@ -158,6 +164,11 @@ export class MeuCadastroComponent implements OnInit {
 
       });
       localStorage.setItem('users', JSON.stringify(usuarios))
+      this.resetarUsuarioForm()
+      alert("Atualização do cadastro feito com sucesso")
+    }
+    else{
+      alert("Campos preenchidos incorretamente")
     }
   }
 
