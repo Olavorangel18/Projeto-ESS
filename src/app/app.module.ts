@@ -1,3 +1,5 @@
+import { AgenciaEmpregoService } from './services/agencia-emprego.service';
+import { BrokerBackendService } from './shared/services/broker-backend.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,6 +19,8 @@ import { ListagemVagaSelecionadosComponent } from './listagem-vaga-selecionados/
 import { IgxSelectModule } from 'igniteui-angular';
 import { IgxInputGroupModule } from "igniteui-angular";
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { SharedModule } from './shared/shared.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -41,8 +45,13 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
     IgxSelectModule,
     IgxInputGroupModule,
     NgxMaskModule.forRoot(),
+    HttpClientModule,
+    SharedModule
   ],
-  providers: [],
+  providers: [
+    BrokerBackendService,
+    AgenciaEmpregoService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

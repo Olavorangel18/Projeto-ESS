@@ -30,7 +30,7 @@ class TestesGUI:
 
 
         driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
-        driver.get("http://localhost:4200")
+        driver.get("http://localhost:51320/")
         #cadastro de usuario tipo empresa
         print("Fazendo cadastro de usuario Olavo do tipo pessoa, email olavo@hotmail.com")
         driver.find_element(By.ID,'empresa').click()

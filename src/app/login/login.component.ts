@@ -1,4 +1,5 @@
 //Entrega parcial grupo 9
+import { AgenciaEmpregoService } from './../services/agencia-emprego.service';
 import { userLogadoModel } from './model/userLogado.model';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -19,6 +20,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   users: userModel[] = new Array();
   usuarioLogado:userLogadoModel|undefined;
   logIn:boolean = false;
+  logarAgora:boolean = false;
+
 
   // controles do formulario
   usuarioForm: FormGroup = new FormGroup({
@@ -33,18 +36,17 @@ export class LoginComponent implements OnInit, OnDestroy {
   //controlador de empresa
   empresaControl = "#41B8D2"
 
-  constructor(private route:Router) { }
+  constructor(
+    private route:Router,
+    private service: AgenciaEmpregoService,
+    ) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem("users")){
-      JSON.parse(String(localStorage.getItem("users"))).forEach((element:userModel) => {
-        this.users.push(element)
-      });
-    }
+
   }
 
   ngOnDestroy(){
-    this.users = [];
+
   }
 
 
@@ -83,7 +85,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.usuarioForm.get('passwordControl')!.value,
         undefined,
         undefined,
-        "",
+        false,
         [],
       )
       if (this.itemId === undefined) this.criarItem(usuarioParaSalvar);
@@ -94,30 +96,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   private criarItem(usuarioParaSalvar: userModel): void {
-    let flagEmailRepetido = false;
-    let usuarios = JSON.parse(String(localStorage.getItem("users")))
-    if(usuarios){
-      usuarios.forEach((usuario:userModel) => {
-        if(usuario.email == usuarioParaSalvar.email) flagEmailRepetido = true;
-      });
-    }
 
-    if(flagEmailRepetido == false){
-      this.users.push(usuarioParaSalvar);
-      localStorage.setItem('users', JSON.stringify(this.users));
-      this.users = [];
-      this.route.navigate(['/agencia-emprego'])
-    }
-    else{
-      alert("Email repetido detectado")
-    }
-
-  this.usuarioLogado = new userLogadoModel(
-      usuarioParaSalvar.id,
-      usuarioParaSalvar.tipo,
-      usuarioParaSalvar.nome
-    )
-    sessionStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado))
+     this.service.criarUsuario(usuarioParaSalvar)
+        .subscribe(
+            response => {
+              console.log(response)
+              this.logarAgora = true;
+              this.logar();
+            },
+            responseError => {
+             console.log(
+                'Erro ao tentar incluir classe de matriz!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
 
   }
 
@@ -136,40 +129,71 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   logar(){
+
     this.usuarioForm.get('nomeControl')?.disable();
-    if(this.usuarioForm.valid && this.logIn == true){
+    if(this.usuarioForm.valid && this.logIn == true || this.logarAgora==true){
       let usuarioParaLogar:userLogar = new userLogar(
         this.usuarioForm.get('emailControl')!.value,
         this.usuarioForm.get('passwordControl')!.value,
       )
-      if(JSON.parse(String(localStorage.getItem("users")))){
-        let matchUsuario = false;
-        let usuarios = JSON.parse(String(localStorage.getItem("users")))
-        usuarios.forEach((usuario:userModel) => {
-          if(usuario.email == usuarioParaLogar.email && usuario.password == usuarioParaLogar.password){
-            matchUsuario = true;
-            this.usuarioLogado = new userLogadoModel(
-              usuario.id,
-              usuario.tipo,
-              usuario.nome
-            )
-            sessionStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado))
 
-            this.route.navigate(['/agencia-emprego'])
-          }
-        });
-        if(matchUsuario == false){
-          alert('Usuario não cadastrado')
-        }
+      this.users= [];
+
+    this.service.getUsuarios()
+        .subscribe(
+            response => {
+              if (response) {
+
+                response.forEach((element: any) => {
+                  this.users.push(new userModel(
+                    element.id,
+                    element.tipo,
+                    element.nome,
+                    element.email,
+                    element.password,
+                    element.cadastroPessoa,
+                    element.cadastroEmpresa,
+                    element.candidatado,
+                    element.vagas
+                  ));
+                });
+
+              }
+              if(this.users){
+
+                let matchUsuario = false;
+                this.users.forEach((usuario:userModel) => {
+                  if(usuario.email == usuarioParaLogar.email && usuario.password == usuarioParaLogar.password){
+                    matchUsuario = true;
+                    this.usuarioLogado = new userLogadoModel(
+                      usuario.id,
+                      usuario.tipo,
+                      usuario.nome
+                    )
+                    sessionStorage.setItem('usuarioLogado', JSON.stringify(this.usuarioLogado))
+                    this.route.navigate(['/agencia-emprego'])
+                  }
+                });
+
+                if(matchUsuario == false){
+                  alert('Usuario não cadastrado')
+                  this.usuarioForm.reset();
+                  this.usuarioForm.get('nomeControl')?.enable();
+                }
+
+              }
+
+            },
+            responseError => {
+
+            console.log(
+                'Erro ao tentar recuperar usuarios!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+
       }
-      else{
-        this.usuarioForm.get('nomeControl')?.enable();
-        alert("Usuario invalido")
-      }
-    }else{
-      alert ("Login invalido")
-    }
-    this.usuarioForm.get('nomeControl')?.enable();
   }
 
 }
