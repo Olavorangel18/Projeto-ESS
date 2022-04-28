@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { userLogadoModel } from '../login/model/userLogado.model';
 import { userModel } from '../login/model/user.model';
+import { AgenciaEmpregoService } from './../services/agencia-emprego.service';
+
 
 
 @Component({
@@ -34,6 +36,7 @@ export class MeuCadastroComponent implements OnInit {
   });
 
   tituloUsuario:string="Meus dados"
+  formObject:userModel | undefined;
 
   //Controlador tipo de usuario
   usuario = {
@@ -41,7 +44,9 @@ export class MeuCadastroComponent implements OnInit {
     pessoa:false,
   };
 
-  constructor() { }
+  constructor(
+    private service: AgenciaEmpregoService,
+  ) { }
 
   ngOnInit(): void {
     this.desabilitarEmpresaForm()
@@ -129,19 +134,35 @@ export class MeuCadastroComponent implements OnInit {
         this.usuarioForm.get('telefoneControl')!.value,
         this.usuarioForm.get('tipoEmpresaControl')!.value,
         this.usuarioForm.get('nomeControl')!.value,
-        
+
       )
-      JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel) => {
-        if(usuario.id == id){
-          usuario.cadastroEmpresa = empresaInformacao
-          usuarios.push(usuario)
-        }else{
-          usuarios.push(usuario)
-        }
-      });
-      localStorage.setItem('users', JSON.stringify(usuarios))
-      this.resetarUsuarioForm()
-      alert("Atualização do cadastro feito com sucesso")
+      this.service.getUsuarioById(id)
+        .subscribe(
+            response => {
+              if (response) {
+                this.formObject = new userModel(
+                  response.id,
+                  response.tipo,
+                  response.nome,
+                  response.email,
+                  response.passsword,
+                  response.cadastroPessoa,
+                  empresaInformacao,
+                  response.candidatado,
+                  response.vagas
+                );
+              }
+              this.atualizarItem(this.formObject)
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar o usuario',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+
+
     }
 
     // Pegar informações que está nos formularios e salvar (empresa)
@@ -154,22 +175,54 @@ export class MeuCadastroComponent implements OnInit {
         this.usuarioForm.get('senioridadeControl')!.value,
       )
 
-      JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel) => {
-        if(usuario.id == id){
-          usuario.cadastroPessoa = pessoaInformmacao
-          usuarios.push(usuario)
-        }else{
-          usuarios.push(usuario)
-        }
-
-      });
-      localStorage.setItem('users', JSON.stringify(usuarios))
-      this.resetarUsuarioForm()
-      alert("Atualização do cadastro feito com sucesso")
+      this.service.getUsuarioById(id)
+        .subscribe(
+            response => {
+              if (response) {
+                this.formObject = new userModel(
+                  response.id,
+                  response.tipo,
+                  response.nome,
+                  response.email,
+                  response.passsword,
+                  pessoaInformmacao,
+                  response.cadastroEmpresa,
+                  response.candidatado,
+                  response.vagas
+                );
+              }
+              this.atualizarItem(this.formObject)
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar o usuario',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
     }
     else{
       alert("Campos preenchidos incorretamente")
     }
+  }
+
+  private atualizarItem(usuarioParaAtualizar: userModel | undefined): void {
+    if(usuarioParaAtualizar)
+    this.service.atualizarUsuario(usuarioParaAtualizar)
+        .subscribe(
+            response => {
+              console.log(response)
+              this.resetarUsuarioForm()
+              alert("Atualização do cadastro feito com sucesso")
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar atualizar o usuario!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+
   }
 
 }
