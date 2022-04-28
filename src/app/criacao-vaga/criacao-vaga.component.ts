@@ -4,6 +4,7 @@ import { userLogadoModel } from '../login/model/userLogado.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { Router } from '@angular/router';
+import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
 
 @Component({
   selector: 'app-criacao-vaga',
@@ -28,7 +29,7 @@ export class CriacaoVagaComponent implements OnInit {
     descricaoControl:new FormControl('',[Validators.required]),
   });
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private service: AgenciaEmpregoService,) { }
 
   ngOnInit() {
     this.pegarTipoUsuario();
@@ -72,17 +73,28 @@ export class CriacaoVagaComponent implements OnInit {
         this.vagaForm.get('senioridadeControl')!.value,
         this.tipoUsuario?.id,
         [],
-        ""
+        false
       )
       if (this.itemId === undefined) this.criarItem(vagaParaSalvar);
     }
   }
 
   criarItem(vagaParaCriar:vagaModel){
-    this.vagas.push(vagaParaCriar);
-      localStorage.setItem('vagas', JSON.stringify(this.vagas));
-      this.vagas = [];
-      this.router.navigate(['agencia-emprego/vagas'])
+
+    this.service.criarVaga(vagaParaCriar)
+        .subscribe(
+            response => {
+              this.router.navigate(['agencia-emprego/vagas'])
+            },
+            responseError => {
+
+              console.log(
+                'Erro ao tentar incluir classe de matriz!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+
     }
 
   voltar(){
