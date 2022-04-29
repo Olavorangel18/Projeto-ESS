@@ -181,14 +181,14 @@ export class ListagemVagasComponent implements OnInit {
                     element.modalidade,
                     element.salario,
                     element.area,
-                    element.descricacao,
+                    element.descricao,
                     element.senioridade,
                     element.idEmpresa,
                     element.pessoas,
                     element.cadastrado
                   ));
                 });
-
+                console.log(this.listaVagas)
               }
             },
             responseError => {

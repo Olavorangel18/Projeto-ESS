@@ -153,7 +153,7 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
                     element.modalidade,
                     element.salario,
                     element.area,
-                    element.descricacao,
+                    element.descricao,
                     element.senioridade,
                     element.idEmpresa,
                     element.pessoas,
