@@ -3,6 +3,7 @@ import { vagaModel } from './../criacao-vaga/models/vaga.models';
 import { userLogadoModel } from './../login/model/userLogado.model';
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
 
 @Component({
   selector: 'app-listagem-vaga-selecionados',
@@ -11,10 +12,13 @@ import { Router } from '@angular/router';
 })
 export class ListagemVagaSelecionadosComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,private service: AgenciaEmpregoService) { }
 
   tipoUsuario: userLogadoModel|undefined;
   listaVagas: vagaModel[] = []
+
+  formObjectUsuario:userModel | undefined;
+  formObjectVaga:vagaModel | undefined;
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
@@ -29,60 +33,62 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
 
   mudarSituacaoInscricao(e:any){
     let vagaID = e.switch.id
-    let vaga:vagaModel | undefined
-    let vagas:vagaModel[] = []
-    let usuarios:userModel[] = []
     let userID:string | undefined = ""
     let usuarioLogado:userLogadoModel = JSON.parse(String(sessionStorage.getItem('usuarioLogado')))
     userID = usuarioLogado.id
+    let delay:number = 100;
 
-    if(!e.checked){
+    if(!e.checked && userID){
 
-      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-          if(vaguinha.id == vagaID){
-            vaga = vaguinha
-            vaga.cadastrado = true
-          }
-      });
+      this.pegarVagaPorID(vagaID)
+      this.pegarUsuarioPorID(userID)
 
-      JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel)=> {
-        if(usuario.id == userID && vaga){
-          let indexUsuario:number = -1
-          vaga.pessoas.forEach((candidato:userModel, index:number) => {
-            if(candidato.id == this.tipoUsuario?.id){
-              indexUsuario = index;
-            }
-          })
-          if(indexUsuario > -1){
-            usuario.vagas.splice(indexUsuario,1)
-          }
-          usuarios.push(usuario)
+      let esperandoDadosCarregamento = () => {
+        if(delay < 2000){
+          setTimeout(() => {
+            if(this.formObjectVaga && this.formObjectUsuario){
 
-          JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaguinha:vagaModel)=> {
-            if(vaguinha.id == vagaID){
-              let indexVaga:number = 0
-              vaguinha.pessoas.forEach((pessoa:userModel,index) => {
-                if(pessoa.id == this.tipoUsuario?.id){
-                  indexVaga = index
+              this.formObjectVaga.cadastrado = false
+
+              let indexUsuario:number = -1
+
+              this.formObjectUsuario?.vagas.forEach((vaga, index:number) => {
+                if(vaga == vagaID){
+                  indexUsuario = index
                 }
               })
-              if(indexVaga> -1){
-                vaguinha.pessoas.splice(indexVaga,1)
+
+              if(indexUsuario > -1){
+                this.formObjectUsuario?.vagas.splice(indexUsuario,1)
               }
-              vagas.push(vaguinha)
-            }else{
-              vagas.push(vaguinha)
+
+              let indexVaga:number = -1
+
+              this.formObjectVaga?.pessoas.forEach((pessoa, index:number) => {
+                if(pessoa == this.tipoUsuario?.id){
+                  indexVaga = index
+                }
+
+                if(indexVaga > -1){
+                  this.formObjectVaga?.pessoas.splice(indexVaga,1)
+                }
+              })
+
+              this.atualizarVaga(this.formObjectVaga)
+              this.atualizarUsuario(this.formObjectUsuario)
+              this.listarVagas()
+
             }
+            else{
+              delay += 200
+              esperandoDadosCarregamento()
+            }
+          },delay)
 
-        });
-        }else{
-          usuarios.push(usuario)
         }
-      });
 
-      localStorage.setItem('users',JSON.stringify(usuarios))
-      localStorage.setItem('vagas',JSON.stringify(vagas))
-      this.retirarPituraLabel(vagaID)
+      }
+      esperandoDadosCarregamento()
      }
   }
 
@@ -101,7 +107,7 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
   }
 
   verSwitchLabel(vaga:vagaModel){
-    return vaga.pessoas.find(pessoa => pessoa.id == this.tipoUsuario?.id) ? true : false
+    return vaga.pessoas.find(pessoa => pessoa == this.tipoUsuario?.id) ? true : false
   }
 
   //********************************************************
@@ -131,13 +137,132 @@ export class ListagemVagaSelecionadosComponent implements OnInit {
   }
 
   listarVagas(){
-    this.listaVagas = []
-    let vagas = localStorage.getItem('vagas')
-    if(vagas){
-      JSON.parse(vagas).forEach((vaga:vagaModel) => {
-        this.listaVagas.push(vaga)
-      });
-    }
+
+    this.listaVagas = [];
+
+    this.service.getVagas()
+        .subscribe(
+            response => {
+
+              if (response) {
+
+                response.forEach((element: any) => {
+                  this.listaVagas.push(new vagaModel(
+                    element.id,
+                    element.nome,
+                    element.modalidade,
+                    element.salario,
+                    element.area,
+                    element.descricacao,
+                    element.senioridade,
+                    element.idEmpresa,
+                    element.pessoas,
+                    element.cadastrado
+                  ));
+                });
+
+              }
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar vagas!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+  }
+
+  atualizarVaga(vagaParaAtualizar: vagaModel | undefined){
+    if(vagaParaAtualizar)
+    this.service.atualizarVaga(vagaParaAtualizar)
+        .subscribe(
+            response => {
+              console.log(response)
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar atualizar a vaga!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+  }
+
+  atualizarUsuario(usuarioParaAtualizar: userModel | undefined){
+    if(usuarioParaAtualizar)
+    this.service.atualizarUsuario(usuarioParaAtualizar)
+        .subscribe(
+            response => {
+              console.log(response)
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar atualizar o usuario!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+  }
+
+  pegarUsuarioPorID(id:string){
+
+    this.service.getUsuarioById(id)
+    .subscribe(
+        response => {
+
+          if (response) {
+            this.formObjectUsuario = new userModel(
+              response.id,
+              response.tipo,
+              response.nome,
+              response.email,
+              response.password,
+              response.cadastroPessoa,
+              response.cadastroEmpresa,
+              response.candidatado,
+              response.vagas
+            );
+
+          }
+        },
+        responseError => {
+          console.log(
+            'Erro ao tentar recuperar o usuario!',
+            responseError.status !== 500 ? responseError?.error?.message : '',
+          );
+        }
+    );
+  }
+
+  pegarVagaPorID(id:string){
+
+    this.service.getVagaById(id)
+    .subscribe(
+        response => {
+
+          if (response) {
+            this.formObjectVaga = new vagaModel(
+              response.id,
+              response.nome,
+              response.modalidade,
+              response.salario,
+              response.area,
+              response.descricao,
+              response.senioridade,
+              response.idEmpresa,
+              response.pessoas,
+              response.cadastrado
+            );
+
+          }
+        },
+        responseError => {
+          console.log(
+            'Erro ao tentar recuperar a vaga!',
+            responseError.status !== 500 ? responseError?.error?.message : '',
+          );
+        }
+    );
   }
 
 }
