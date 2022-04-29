@@ -38,7 +38,7 @@ export class BrokerBackendService {
             .pipe(map(
               response => {
                 return response;
-              }
+              },
             ));
       case 'DELETE':
         return this.http

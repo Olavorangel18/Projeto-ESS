@@ -89,7 +89,7 @@ export class CriacaoVagaComponent implements OnInit {
             responseError => {
 
               console.log(
-                'Erro ao tentar incluir classe de matriz!',
+                'Erro ao tentar incluir vaga!',
                 responseError.status !== 500 ? responseError?.error?.message : '',
               );
             }

@@ -4,6 +4,7 @@ import { userLogadoModel } from './../login/model/userLogado.model';
 import { empresaModel } from './../meu-cadastro/models/empresa.model';
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
+import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
 
 @Component({
   selector: 'app-listagem-vagas',
@@ -17,7 +18,10 @@ export class ListagemVagasComponent implements OnInit {
   //Usado para renderizar as listas no html
   listaVagas: vagaModel[] = []
 
-  constructor(private router:Router) { }
+  formObjectUsuario:userModel | undefined;
+  formObjectVaga:vagaModel | undefined;
+
+  constructor(private router:Router, private service: AgenciaEmpregoService,) { }
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
@@ -41,104 +45,95 @@ export class ListagemVagasComponent implements OnInit {
 
   mudarSituacaoInscricao(e:any){
     let vagaID = e.switch.id
-    let vaga:vagaModel | undefined
-    let vagas:vagaModel[] = []
-    let usuarios:userModel[] = []
-    let userID:string | undefined = ""
     let usuarioLogado:userLogadoModel = JSON.parse(String(sessionStorage.getItem('usuarioLogado')))
-    let isCadastrado:boolean = false;
-    userID = usuarioLogado.id
+    let isCadastrado:boolean | undefined;
+    let userID = usuarioLogado.id
+    let delay:number = 100;
 
-     if(e.checked){
+     if(e.checked && userID){
+      this.pegarVagaPorID(vagaID)
+      this.pegarUsuarioPorID(String(userID))
+      let esperandoDadosCarregamento = () => {
+        if(delay < 2000){
+          setTimeout(() => {
+            if(this.formObjectVaga && this.formObjectUsuario){
 
-      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
-          if(vagaSelecionada.id == vagaID){
-            vaga = vagaSelecionada
-            vaga.cadastrado = true
-          }
-      });
+              this.formObjectVaga.cadastrado = true
 
-      //Guardar no objeto usuario a vaga que foi selecionada
-      JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel)=> {
-         if(usuario.id == userID && vaga){
-           if(usuario.cadastroPessoa){
-            usuario.vagas.push(vaga)
-            usuarios.push(usuario)
-            //Guardar no objeto vaga o usuario que o selecionou
-            JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
-              if(vagaSelecionada.id == vagaID){
-                vagaSelecionada.pessoas.push(usuario)
-                vagas.push(vagaSelecionada)
-              }else{
-                vagas.push(vagaSelecionada)
+              if(this.formObjectUsuario.cadastroPessoa){
+                this.formObjectUsuario.vagas.push(this.formObjectVaga.id)
+                this.formObjectVaga.pessoas.push(this.formObjectUsuario.id)
+                isCadastrado = true
               }
-            });
-            isCadastrado=true
-           }
-           else{
-             alert('Usuario não completou cadastro')
-             this.router.navigate(["/agencia-emprego"])
-           }
-          }else{
-            usuarios.push(usuario)
-          }
-      });
-      //Se ocorreu o cadastro atualizar o banco de dados
-      if(isCadastrado){
-        localStorage.setItem('users',JSON.stringify(usuarios))
-        localStorage.setItem('vagas',JSON.stringify(vagas))
+              if(isCadastrado){
+                this.atualizarUsuario(this.formObjectUsuario)
+                this.atualizarVaga(this.formObjectVaga)
+                this.pintarLabelCandidato(vagaID)
+              }
+            }
+            else{
+              delay += 200
+              esperandoDadosCarregamento()
+            }
+          },delay)
+
+        }else{
+          alert('Usuario não completou cadastro')
+          this.router.navigate(["/agencia-emprego"])
+        }
       }
 
-      this.pintarLabelCandidato(vagaID)
+      esperandoDadosCarregamento()
 
-     }else{
 
-      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
-          if(vagaSelecionada.id == vagaID){
-            vaga = vagaSelecionada
-            vaga.cadastrado = true
-          }
-      });
+     }else if (userID && e.checked==false){
+      this.pegarVagaPorID(vagaID)
+      this.pegarUsuarioPorID(userID)
 
-      //Retirar do objeto usuario a vaga que foi descelecionada
-      JSON.parse(String(localStorage.getItem('users'))).forEach((usuario:userModel)=> {
-        if(usuario.id == userID && vaga){
-          let indexUsuario:number = -1
-          vaga.pessoas.forEach((candidato:userModel, index:number) => {
-            if(candidato.id == this.tipoUsuario?.id){
-              indexUsuario = index;
-            }
-          })
-          if(indexUsuario > -1){
-            usuario.vagas.splice(indexUsuario,1)
-          }
-          usuarios.push(usuario)
+      let esperandoDadosCarregamento = () => {
+        if(delay < 2000){
+          setTimeout(() => {
+            if(this.formObjectVaga && this.formObjectUsuario){
 
-          //Retirar do objeto vaga o usuario que o descelecionou
-          JSON.parse(String(localStorage.getItem('vagas'))).forEach((vagaSelecionada:vagaModel)=> {
-            if(vagaSelecionada.id == vagaID){
-              let indexVaga:number = 0
-              vagaSelecionada.pessoas.forEach((pessoa:userModel,index) => {
-                if(pessoa.id == this.tipoUsuario?.id){
-                  indexVaga = index
+              this.formObjectVaga.cadastrado = false
+
+              let indexUsuario:number = -1
+
+              this.formObjectUsuario?.vagas.forEach((vaga, index:number) => {
+                if(vaga == vagaID){
+                  indexUsuario = index
                 }
               })
-              if(indexVaga> -1){
-                vagaSelecionada.pessoas.splice(indexVaga,1)
+
+              if(indexUsuario > -1){
+                this.formObjectUsuario?.vagas.splice(indexUsuario,1)
               }
-              vagas.push(vagaSelecionada)
-            }else{
-              vagas.push(vagaSelecionada)
+
+              let indexVaga:number = -1
+
+              this.formObjectVaga?.pessoas.forEach((pessoa, index:number) => {
+                if(pessoa == this.tipoUsuario?.id){
+                  indexVaga = index
+                }
+
+                if(indexVaga > -1){
+                  this.formObjectVaga?.pessoas.splice(indexVaga,1)
+                }
+              })
+
+              this.atualizarVaga(this.formObjectVaga)
+              this.atualizarUsuario(this.formObjectUsuario)
             }
+            else{
+              delay += 200
+              esperandoDadosCarregamento()
+            }
+          },delay)
 
-        });
-        }else{
-          usuarios.push(usuario)
         }
-      });
 
-      localStorage.setItem('users',JSON.stringify(usuarios))
-      localStorage.setItem('vagas',JSON.stringify(vagas))
+      }
+      esperandoDadosCarregamento()
       this.retirarPituraLabel(vagaID)
      }
   }
@@ -158,7 +153,7 @@ export class ListagemVagasComponent implements OnInit {
   }
 
   verSwitchLabel(vaga:vagaModel){
-    return vaga.pessoas.find(pessoa => pessoa.id == this.tipoUsuario?.id) ? true : false
+    return vaga.pessoas.find(pessoa => pessoa == this.tipoUsuario?.id) ? true : false
   }
 
   //********************************************************
@@ -170,12 +165,135 @@ export class ListagemVagasComponent implements OnInit {
   }
 
   listarVagas(){
-    let vagas = localStorage.getItem('vagas')
-    if(vagas){
-      JSON.parse(vagas).forEach((vaga:vagaModel) => {
-        this.listaVagas.push(vaga)
-      });
-    }
+
+    this.listaVagas = [];
+
+    this.service.getVagas()
+        .subscribe(
+            response => {
+
+              if (response) {
+
+                response.forEach((element: any) => {
+                  this.listaVagas.push(new vagaModel(
+                    element.id,
+                    element.nome,
+                    element.modalidade,
+                    element.salario,
+                    element.area,
+                    element.descricacao,
+                    element.senioridade,
+                    element.idEmpresa,
+                    element.pessoas,
+                    element.cadastrado
+                  ));
+                });
+
+              }
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar vagas!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
   }
+
+  atualizarVaga(vagaParaAtualizar: vagaModel | undefined){
+    if(vagaParaAtualizar)
+    this.service.atualizarVaga(vagaParaAtualizar)
+        .subscribe(
+            response => {
+              console.log(response)
+              alert("Atualização da vaga feita com sucesso")
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar atualizar a vaga!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+  }
+
+  atualizarUsuario(usuarioParaAtualizar: userModel | undefined){
+    if(usuarioParaAtualizar)
+    this.service.atualizarUsuario(usuarioParaAtualizar)
+        .subscribe(
+            response => {
+              console.log(response)
+              alert("Atualização do usuario feito com sucesso")
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar atualizar o usuario!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+  }
+
+  pegarUsuarioPorID(id:string){
+
+    this.service.getUsuarioById(id)
+    .subscribe(
+        response => {
+
+          if (response) {
+            this.formObjectUsuario = new userModel(
+              response.id,
+              response.tipo,
+              response.nome,
+              response.email,
+              response.password,
+              response.cadastroPessoa,
+              response.cadastroEmpresa,
+              response.candidatado,
+              response.vagas
+            );
+
+          }
+        },
+        responseError => {
+          console.log(
+            'Erro ao tentar recuperar o usuario!',
+            responseError.status !== 500 ? responseError?.error?.message : '',
+          );
+        }
+    );
+  }
+
+  pegarVagaPorID(id:string){
+
+    this.service.getVagaById(id)
+    .subscribe(
+        response => {
+
+          if (response) {
+            this.formObjectVaga = new vagaModel(
+              response.id,
+              response.nome,
+              response.modalidade,
+              response.salario,
+              response.area,
+              response.descricao,
+              response.senioridade,
+              response.idEmpresa,
+              response.pessoas,
+              response.cadastrado
+            );
+
+          }
+        },
+        responseError => {
+          console.log(
+            'Erro ao tentar recuperar a vaga!',
+            responseError.status !== 500 ? responseError?.error?.message : '',
+          );
+        }
+    );
+  }
+
 
 }

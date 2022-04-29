@@ -12,12 +12,12 @@ export class userModel {
   public cadastroPessoa: pessoaModel | undefined;
   public cadastroEmpresa: empresaModel | undefined;
   public candidatado:boolean;
-  public vagas:vagaModel[];
+  public vagas:any[];
 
   constructor(id: string | undefined,tipo:string, nome: string, email: string,
     password:string, cadastroPessoa:pessoaModel|undefined,
     cadastroEmpresa:empresaModel|undefined, candidatado:boolean,
-    vagas:vagaModel[]) {
+    vagas:any[]) {
       this.id = id;
       this.tipo = tipo;
       this.nome = nome;
@@ -38,5 +38,6 @@ export class userLogar {
   constructor(email: string, password:string) {
     this.email = email;
     this.password = password;
+  }
 }
-}
+
