@@ -1,7 +1,8 @@
 import { vagaModel } from './../criacao-vaga/models/vaga.models';
 import { Component, OnInit } from '@angular/core';
 import { userLogadoModel } from '../login/model/userLogado.model';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
 
 @Component({
   selector: 'app-listagem-vagas-empresas',
@@ -13,7 +14,7 @@ export class ListagemVagasEmpresasComponent implements OnInit {
   tipoUsuario: userLogadoModel|undefined;
   vagas:vagaModel[] = []
 
-  constructor(private router:Router,private activatedRoute: ActivatedRoute) {
+  constructor(private router:Router,private service: AgenciaEmpregoService) {
 
    }
 
@@ -48,15 +49,42 @@ export class ListagemVagasEmpresasComponent implements OnInit {
   recuperarVagaPelaEmpresa(){
     this.vagas = []
     let vagas:vagaModel[] = []
-    if(localStorage.getItem('vagas')){
-      vagas = JSON.parse(String(localStorage.getItem('vagas')))
-      vagas.forEach((vaga:vagaModel) =>{
-        if(vaga.idEmpresa == this.tipoUsuario?.id){
-          this.vagas.push(vaga)
-        }
-      })
+
+    this.service.getVagas()
+        .subscribe(
+            response => {
+
+              if (response) {
+
+                response.forEach((element: any) => {
+                  vagas.push(new vagaModel(
+                    element.id,
+                    element.nome,
+                    element.modalidade,
+                    element.salario,
+                    element.area,
+                    element.descricao,
+                    element.senioridade,
+                    element.idEmpresa,
+                    element.pessoas,
+                    element.cadastrado
+                  ));
+                });
+              }
+              vagas.forEach((vaga:vagaModel) =>{
+                if(vaga.idEmpresa == this.tipoUsuario?.id){
+                  this.vagas.push(vaga)
+                }
+              })
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar vagas!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
     }
-  }
 
 
   //********************************************************
