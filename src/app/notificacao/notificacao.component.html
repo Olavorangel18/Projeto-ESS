@@ -1,5 +1,5 @@
-<div class="container-notificacao">
-  <h2>Notificação</h2>
+<div [ngClass]="tipoUsuario!.tipo == 'empresa' ? 'notificacao-form' : ''" class="container-notificacao">
+  <h2 class="titulo">Notificação</h2>
   <div style="width: 80%;margin: 0 auto; padding-top: 30px;" *ngIf="tipoUsuario!.tipo=='empresa'">
     <form [formGroup]="notificacaoForm">
       <div class="container-inputs">

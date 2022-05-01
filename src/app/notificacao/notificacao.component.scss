@@ -80,6 +80,12 @@ h2{
   color: #41B8D2;
   margin-top: 20px;
   margin-bottom: 20px;
+  display: flex;
+}
+
+.titulo{
+  color:#317181;
+  justify-content: center;
 }
 
 .label{
@@ -107,6 +113,10 @@ h2{
   padding: 16px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+}
+
+.notificacao-form{
   place-content: center;
 }
 
