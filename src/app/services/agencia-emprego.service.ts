@@ -1,9 +1,11 @@
+import { notificacaoModel } from './../notificacao/models/notificacao.models';
 import { Injectable } from '@angular/core';
 import { BrokerBackendService } from '../shared/services/broker-backend.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { userModel } from '../login/model/user.model';
 import { HttpHeaders } from "@angular/common/http";
 import { vagaModel } from '../criacao-vaga/models/vaga.models';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,9 @@ export class AgenciaEmpregoService {
     private brokerBackend: BrokerBackendService,
   ) { }
 
+  criarNotificacao(notificacaoParaCriar:notificacaoModel):Observable<any>{
+    return of (notificacaoParaCriar)
+  }
 
   getVagas(): Observable<any> {
     return this.brokerBackend

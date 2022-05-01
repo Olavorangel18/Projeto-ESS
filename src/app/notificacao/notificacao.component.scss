@@ -1,3 +1,4 @@
+@use '../../variables' as *;
 
 .circulo{
   display: flex;
@@ -28,7 +29,7 @@ ul{
 
 li{
   width: 80%;
-  box-shadow: 0px 4px 0px #41B8D2;
+  border-bottom: 4px solid #41b8d2;
   margin-bottom: 40px;
   max-width: 900px;
 }
@@ -104,4 +105,149 @@ h2{
   width: 100%;
   height: 100%;
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 68px;
+  text-align: center;
+  color: #41B8D2;
+}
+
+
+.textarea{
+  width: 100% !important;
+  max-width: calc(475px + 510px) !important;
+  height: 300px;
+}
+
+.titulo{
+  width: 100% !important;
+  max-width: calc(475px + 510px) !important;
+}
+
+$custom-input-group: input-group-theme(
+
+);
+
+:host {
+  ::ng-deep {
+      @include input-group($custom-input-group);
+      .igx-input-group__bundle{
+        box-shadow: inset 0 0 0 0 !important;
+        height: 100%;
+       };
+       .igx-input-group__border{
+        height: 0px;
+       }
+       .igx-input-group__bundle-main{
+         height: 100%;
+       }
+  }
+}
+
+.igx-input-group{
+  width: 100%;
+  height: 100%;
+  border: 0 !important;
+}
+
+.container-cadastro{
+  padding-top: 30px;
+  padding-left: 120px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 130px;
+  justify-content: center;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 50px;
+  line-height: 68px;
+  text-align: center;
+}
+
+.inputs-comum{
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.inputs-pessoa{
+  display: flex;
+  flex-direction: column;
+}
+
+.inputs-empresa{
+  display: flex;
+  flex-direction: column;
+}
+
+.container-inputs{
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.input{
+  margin-bottom: 60px;
+}
+
+textarea{
+  height: 100%;
+  width: 100%;
+  padding-right: 20px;
+  word-break: break-all;
+}
+igx-select {
+  width: 100%;
+  height: 100%;
+  border: 0 !important;
+}
+
+igx-select > div > div{
+  box-shadow: inset 0 0 0 0 !important;
+}
+
+button{
+  width: 249px;
+  height: 50px;
+  background: #41B8D2;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 27px;
+  text-align: center;
+}
+
+.container-button{
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 1100px) {
+  .inputs-comum{
+    flex-direction: column !important;
+    align-items: center;
+    gap: 0px !important;
+
+  }
+  .container-inputs{
+    flex-direction: column !important;
+    align-items: center;
+    gap: 0px !important;
+
+  }
+  .input{
+    margin-bottom: 15px !important;
+  }
 }
