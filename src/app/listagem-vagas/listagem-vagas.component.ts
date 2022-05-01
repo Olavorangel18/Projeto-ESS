@@ -65,6 +65,12 @@ export class ListagemVagasComponent implements OnInit {
                 this.formObjectVaga.pessoas.push(this.formObjectUsuario.id)
                 isCadastrado = true
               }
+
+              else{
+                alert('Usuario não completou cadastro')
+                this.router.navigate(["/agencia-emprego"])
+              }
+
               if(isCadastrado){
                 this.atualizarUsuario(this.formObjectUsuario)
                 this.atualizarVaga(this.formObjectVaga)
@@ -76,10 +82,6 @@ export class ListagemVagasComponent implements OnInit {
               esperandoDadosCarregamento()
             }
           },delay)
-
-        }else{
-          alert('Usuario não completou cadastro')
-          this.router.navigate(["/agencia-emprego"])
         }
       }
 

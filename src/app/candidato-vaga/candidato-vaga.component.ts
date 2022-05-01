@@ -1,3 +1,4 @@
+import { AgenciaEmpregoService } from './../services/agencia-emprego.service';
 import { userLogadoModel } from './../login/model/userLogado.model';
 import { vagaModel } from './../criacao-vaga/models/vaga.models';
 import { userModel } from './../login/model/user.model';
@@ -14,8 +15,9 @@ export class CandidatoVagaComponent implements OnInit {
   vagaID:string = ""
   pessoasVaga:userModel[]= []
   tipoUsuario:userLogadoModel|undefined;
+  vaga:vagaModel | undefined;
 
-  constructor(private activatedRoute: ActivatedRoute, private router:Router) {
+  constructor(private activatedRoute: ActivatedRoute, private router:Router, private service:AgenciaEmpregoService) {
   this.vagaID = this.activatedRoute.snapshot.params["id"];
   }
 
@@ -46,13 +48,53 @@ export class CandidatoVagaComponent implements OnInit {
   //********************************************************
 
   recuperarPessoasByVagaID(){
-    if(localStorage.getItem('vagas')){
-      JSON.parse(String(localStorage.getItem('vagas'))).forEach((vaga:vagaModel) => {
-        if(vaga.id == this.vagaID){
-          this.pessoasVaga= vaga.pessoas
-        }
-      });
-    }
+
+    this.service.getVagaById(this.vagaID)
+        .subscribe(
+            response => {
+
+              if (response) {
+                this.vaga = response
+                this.vaga?.pessoas.forEach((pessoaID) =>{
+                  this.service.getUsuarioById(pessoaID)
+                  .subscribe(
+                      response => {
+
+                        if (response) {
+                          this.pessoasVaga.push(new userModel(
+                            response.id,
+                            response.tipo,
+                            response.nome,
+                            response.email,
+                            response.password,
+                            response.cadastroPessoa,
+                            response.cadastroEmpresa,
+                            response.candidatado,
+                            response.vagas
+                          ));
+
+                        }
+                      },
+                      responseError => {
+                        console.log(
+                          'Erro ao tentar recuperar o usuario!',
+                          responseError.status !== 500 ? responseError?.error?.message : '',
+                        );
+                      }
+                  );
+                })
+              }
+
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar vagas!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+
+
   }
 
 
