@@ -23,6 +23,7 @@ export class NotificacaoComponent implements OnInit {
     this.pegarTipoUsuario();
     this.pegarUsuarios();
     this.isEmpresa();
+    if(this.tipoUsuario?.tipo == "pessoa") this.listarNotificacao()
   }
 
    // controles do formulario
@@ -35,6 +36,8 @@ export class NotificacaoComponent implements OnInit {
     tituloControl:new FormControl('',[Validators.required]),
 
   });
+
+  listaNotificacao: notificacaoModel[] = []
 
   //********************************************************
   //                      Forms
@@ -88,6 +91,7 @@ export class NotificacaoComponent implements OnInit {
               if (response) {
 
                 response.forEach((element: any) => {
+                  if(element.tipo == "pessoa")
                   this.candidatos.push(new userModel(
                     element.id,
                     element.tipo,
@@ -120,7 +124,7 @@ export class NotificacaoComponent implements OnInit {
     if(this.notificacaoForm.valid && this.tipoUsuario!.id){
       let notificacaoParaSalvar:notificacaoModel = new notificacaoModel(
         uuidv4(),
-        this.tipoUsuario!.id,
+        this.tipoUsuario!.nome,
         this.notificacaoForm.get('usuarioControl')!.value,
         this.notificacaoForm.get('assuntoControl')!.value,
         this.notificacaoForm.get('tituloControl')!.value,
@@ -150,5 +154,42 @@ export class NotificacaoComponent implements OnInit {
         );
 
     }
+
+  //********************************************************
+  //                Listagem Notificacao
+  //********************************************************
+
+  listarNotificacao(){
+
+    this.listaNotificacao = [];
+
+    this.service.getNotificacao()
+        .subscribe(
+            response => {
+
+              if (response) {
+
+                response.forEach((element: any) => {
+                  if(element.idUsuario == this.tipoUsuario?.id)
+                  this.listaNotificacao.push(new notificacaoModel(
+                   element.id,
+                   element.idEmpresa,
+                   element.idUsuario,
+                   element.assunto,
+                   element.titulo,
+                   element.mensagem
+                  ));
+                });
+              }
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar vagas!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+  }
+
 
 }

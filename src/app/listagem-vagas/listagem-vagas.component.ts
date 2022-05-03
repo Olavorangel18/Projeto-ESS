@@ -190,7 +190,6 @@ export class ListagemVagasComponent implements OnInit {
                     element.cadastrado
                   ));
                 });
-                console.log(this.listaVagas)
               }
             },
             responseError => {

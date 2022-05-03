@@ -14,14 +14,64 @@ export class AgenciaEmpregoService {
 
   endpointUsuario: string = '/user';
   endpointVaga: string = '/vaga';
+  endpointNotificacao:string = '/notificacao';
 
   constructor(
     private brokerBackend: BrokerBackendService,
   ) { }
 
-  criarNotificacao(notificacaoParaCriar:notificacaoModel):Observable<any>{
-    return of (notificacaoParaCriar)
+  getNotificacao(): Observable<any> {
+    return this.brokerBackend
+        .connectInBackend(
+          this.endpointNotificacao,
+          'GET',
+          undefined,
+          this.getSimpleHeader(),
+        );
   }
+
+  getNotificacaoById(notificacaoId: string): Observable<any> {
+    return this.brokerBackend
+        .connectInBackend(
+          `${this.endpointNotificacao}/${notificacaoId}`,
+          'GET',
+          undefined,
+          this.getSimpleHeader()
+        );
+  }
+
+  criarNotificacao(notificacaoParaCriar: notificacaoModel): Observable<any> {
+    return this.brokerBackend
+        .connectInBackend(
+          this.endpointNotificacao,
+          'POST',
+          notificacaoParaCriar,
+          this.getSimpleHeader()
+        );
+  }
+
+  atualizarNotificacao(notificacaoParaAtualizar: notificacaoModel): Observable<any> {
+    return this.brokerBackend
+        .connectInBackend(
+          `${this.endpointNotificacao}/${notificacaoParaAtualizar.id}`,
+          'PUT',
+          notificacaoParaAtualizar,
+          this.getSimpleHeader(),
+          undefined
+        );
+  }
+
+  deletarNotificacao(notificacaoId: string): Observable<any> {
+    return this.brokerBackend
+        .connectInBackend(
+          `${this.endpointNotificacao}/${notificacaoId}`,
+          'DELETE',
+          undefined,
+          this.getSimpleHeader(),
+          undefined
+        );
+  }
+
 
   getVagas(): Observable<any> {
     return this.brokerBackend
