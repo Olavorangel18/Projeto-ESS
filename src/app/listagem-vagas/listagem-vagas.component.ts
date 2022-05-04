@@ -1,10 +1,10 @@
 import { userModel } from './../login/model/user.model';
 import { vagaModel } from './../criacao-vaga/models/vaga.models';
 import { userLogadoModel } from './../login/model/userLogado.model';
-import { empresaModel } from './../meu-cadastro/models/empresa.model';
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-listagem-vagas',
@@ -21,12 +21,91 @@ export class ListagemVagasComponent implements OnInit {
   formObjectUsuario:userModel | undefined;
   formObjectVaga:vagaModel | undefined;
 
+   // controles do formulario
+   filtroForm: FormGroup = new FormGroup({
+    salarioControl:new FormControl('',[Validators.required]),
+  });
+
+
   constructor(private router:Router, private service: AgenciaEmpregoService,) { }
 
   ngOnInit(): void {
     this.pegarTipoUsuario();
     this.listarVagas();
   }
+
+  //********************************************************
+  //                     Filtro
+  //********************************************************
+
+  pintarInputModalidade(e:any){
+    let modalidade = document.querySelector('.modalidade-filtro')
+    modalidade?.querySelector(".ativo")?.classList.remove('ativo')
+    e.currentTarget.classList.add("ativo")
+  }
+
+  pintarInputExperiencia(e:any){
+    let experiencia = document.querySelector('.experiencia-filtro')
+    experiencia?.querySelector(".ativo")?.classList.remove('ativo')
+    e.currentTarget.classList.add("ativo")
+  }
+
+  limparFiltro(){
+    document.querySelectorAll('.ativo').forEach(element => {
+      element.classList.remove('ativo')
+    })
+    this.filtroForm.get('salarioControl')!.setValue('')
+  }
+
+  aplicarFiltro(){
+    let vagaFiltro:vagaFiltroModel;
+    let inputs = document.querySelectorAll('.ativo')
+    vagaFiltro = new vagaFiltroModel(
+      inputs[0]?.innerHTML,
+      String(this.filtroForm.get('salarioControl')!.value) ? String(this.filtroForm.get('salarioControl')!.value) : undefined ,
+      inputs[1]?.innerHTML
+    )
+      this.limparFiltro()
+      this.getVagasPorFiltro(vagaFiltro)
+  }
+
+  getVagasPorFiltro(vagaFiltro:vagaFiltroModel){
+
+    this.listaVagas = [];
+
+    this.service.getVagasByFiltro(vagaFiltro)
+        .subscribe(
+            response => {
+
+              if (response) {
+                console.log(response)
+                response.forEach((element: any) => {
+                  this.listaVagas.push(new vagaModel(
+                    element.id,
+                    element.nome,
+                    element.modalidade,
+                    element.salario,
+                    element.area,
+                    element.descricao,
+                    element.senioridade,
+                    element.idEmpresa,
+                    element.pessoas,
+                    element.cadastrado
+                  ));
+                });
+              }
+            },
+            responseError => {
+              console.log(
+                'Erro ao tentar recuperar vagas!',
+                responseError.status !== 500 ? responseError?.error?.message : '',
+              );
+            }
+        );
+
+  }
+
+
 
   //********************************************************
   //                  Autenticação
@@ -296,5 +375,16 @@ export class ListagemVagasComponent implements OnInit {
     );
   }
 
+}
 
+export class vagaFiltroModel {
+  modalidade:string | undefined
+  salario:string|undefined
+  senioridade:string|undefined
+
+  constructor(modalidade:string | undefined, salario:string | undefined, senioridade:string | undefined){
+    this.modalidade = modalidade
+    this.salario = salario
+    this.senioridade = senioridade
+  }
 }

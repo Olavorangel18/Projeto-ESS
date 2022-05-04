@@ -21,6 +21,7 @@ import { IgxInputGroupModule } from "igniteui-angular";
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { SharedModule } from './shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { IgxDialogModule } from 'igniteui-angular';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { HttpClientModule } from '@angular/common/http';
     IgxInputGroupModule,
     NgxMaskModule.forRoot(),
     HttpClientModule,
-    SharedModule
+    SharedModule,
+    IgxDialogModule
   ],
   providers: [
     BrokerBackendService,

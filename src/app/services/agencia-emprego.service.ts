@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { userModel } from '../login/model/user.model';
 import { HttpHeaders } from "@angular/common/http";
 import { vagaModel } from '../criacao-vaga/models/vaga.models';
-
+import { vagaFiltroModel } from '../listagem-vagas/listagem-vagas.component';
 
 @Injectable({
   providedIn: 'root'
@@ -89,6 +89,16 @@ export class AgenciaEmpregoService {
           `${this.endpointVaga}/${vagaId}`,
           'GET',
           undefined,
+          this.getSimpleHeader()
+        );
+  }
+
+  getVagasByFiltro(filtroVaga:vagaFiltroModel):Observable<any>{
+    return this.brokerBackend
+        .connectInBackend(
+          `${this.endpointVaga}/filtro`,
+          'POST',
+          filtroVaga,
           this.getSimpleHeader()
         );
   }
