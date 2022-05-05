@@ -1,4 +1,4 @@
-import { userModel } from './../../login/model/user.model';
+import { userModel } from "src/app/shared/login/model/user.model";
 export class vagaModel {
 
   public id:string |undefined;

@@ -2,7 +2,7 @@ import { userModel } from './../login/model/user.model';
 import { Component, OnInit } from '@angular/core';
 import { userLogadoModel } from '../login/model/userLogado.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AgenciaEmpregoService } from './../services/agencia-emprego.service';
+import { AgenciaEmpregoService } from 'src/app/services/agencia-emprego.service';
 import { notificacaoModel } from './models/notificacao.models';
 import { v4 as uuidv4 } from 'uuid';
 

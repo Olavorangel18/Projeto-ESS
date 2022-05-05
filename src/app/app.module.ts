@@ -1,3 +1,4 @@
+import { NotificacaoComponent } from './shared/notificacao/notificacao.component';
 import { AgenciaEmpregoService } from './services/agencia-emprego.service';
 import { BrokerBackendService } from './shared/services/broker-backend.service';
 import { NgModule } from '@angular/core';
@@ -5,36 +6,27 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MeuCadastroComponent } from './meu-cadastro/meu-cadastro.component';
-import { ListagemVagasComponent } from './listagem-vagas/listagem-vagas.component';
-import { ListagemVagasEmpresasComponent } from './listagem-vagas-empresas/listagem-vagas-empresas.component';
-import { NotificacaoComponent } from './notificacao/notificacao.component';
-import { CandidatoVagaComponent } from './candidato-vaga/candidato-vaga.component';
-import { LoginComponent } from './login/login.component';
 import { AppMainComponentComponent } from './shared/pages/app-main-component/app-main-component.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IgxSwitchModule } from 'igniteui-angular';
-import { CriacaoVagaComponent } from './criacao-vaga/criacao-vaga.component';
-import { ListagemVagaSelecionadosComponent } from './listagem-vaga-selecionados/listagem-vaga-selecionados.component';
 import { IgxSelectModule } from 'igniteui-angular';
 import { IgxInputGroupModule } from "igniteui-angular";
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { SharedModule } from './shared/shared.module';
+import { EmpresaModule } from './empresa/empresa.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IgxDialogModule } from 'igniteui-angular';
+import { PessoaModule } from './pessoa/pessoa.module';
+import { LoginComponent } from './shared/login/login.component';
+import { MeuCadastroComponent } from './shared/meu-cadastro/meu-cadastro.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MeuCadastroComponent,
-    ListagemVagasComponent,
-    ListagemVagasEmpresasComponent,
-    NotificacaoComponent,
-    CandidatoVagaComponent,
-    LoginComponent,
     AppMainComponentComponent,
-    CriacaoVagaComponent,
-    ListagemVagaSelecionadosComponent
+    LoginComponent,
+    MeuCadastroComponent,
+    NotificacaoComponent
    ],
   imports: [
     BrowserModule,
@@ -48,7 +40,9 @@ import { IgxDialogModule } from 'igniteui-angular';
     NgxMaskModule.forRoot(),
     HttpClientModule,
     SharedModule,
-    IgxDialogModule
+    EmpresaModule,
+    IgxDialogModule,
+    PessoaModule
   ],
   providers: [
     BrokerBackendService,

@@ -1,173 +1,45 @@
-import { userModel } from './../login/model/user.model';
-import { vagaModel } from './../criacao-vaga/models/vaga.models';
-import { userLogadoModel } from './../login/model/userLogado.model';
+import { userModel } from 'src/app/shared/login/model/user.model';
+import { vagaModel } from 'src/app/empresa/criacao-vaga/models/vaga.models';
+import { userLogadoModel } from 'src/app/shared/login/model/userLogado.model';
 import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AgenciaEmpregoService } from '../../services/agencia-emprego.service';
 
 @Component({
-  selector: 'app-listagem-vagas',
-  templateUrl: './listagem-vagas.component.html',
-  styleUrls: ['./listagem-vagas.component.scss']
+  selector: 'app-listagem-vaga-selecionados',
+  templateUrl: './listagem-vaga-selecionados.component.html',
+  styleUrls: ['./listagem-vaga-selecionados.component.scss']
 })
-export class ListagemVagasComponent implements OnInit {
+export class ListagemVagaSelecionadosComponent implements OnInit {
 
-  tipoUsuario: userLogadoModel|undefined
+  constructor(private router:Router,private service: AgenciaEmpregoService) { }
 
-  //Usado para renderizar as listas no html
+  tipoUsuario: userLogadoModel|undefined;
   listaVagas: vagaModel[] = []
 
   formObjectUsuario:userModel | undefined;
   formObjectVaga:vagaModel | undefined;
 
-   // controles do formulario
-   filtroForm: FormGroup = new FormGroup({
-    salarioControl:new FormControl('',[Validators.required]),
-  });
-
-
-  constructor(private router:Router, private service: AgenciaEmpregoService,) { }
-
   ngOnInit(): void {
     this.pegarTipoUsuario();
+    this.redirecionamentoUsuarioTipoErrado();
     this.listarVagas();
   }
 
-  //********************************************************
-  //                     Filtro
-  //********************************************************
-
-  pintarInputModalidade(e:any){
-    let modalidade = document.querySelector('.modalidade-filtro')
-    modalidade?.querySelector(".ativo")?.classList.remove('ativo')
-    e.currentTarget.classList.add("ativo")
-  }
-
-  pintarInputExperiencia(e:any){
-    let experiencia = document.querySelector('.experiencia-filtro')
-    experiencia?.querySelector(".ativo")?.classList.remove('ativo')
-    e.currentTarget.classList.add("ativo")
-  }
-
-  limparFiltro(){
-    document.querySelectorAll('.ativo').forEach(element => {
-      element.classList.remove('ativo')
-    })
-    this.filtroForm.get('salarioControl')!.setValue('')
-  }
-
-  aplicarFiltro(){
-    let vagaFiltro:vagaFiltroModel;
-    let inputs = document.querySelectorAll('.ativo')
-    vagaFiltro = new vagaFiltroModel(
-      inputs[0]?.innerHTML,
-      String(this.filtroForm.get('salarioControl')!.value) ? String(this.filtroForm.get('salarioControl')!.value) : undefined ,
-      inputs[1]?.innerHTML
-    )
-      this.limparFiltro()
-      this.getVagasPorFiltro(vagaFiltro)
-  }
-
-  getVagasPorFiltro(vagaFiltro:vagaFiltroModel){
-
-    this.listaVagas = [];
-
-    this.service.getVagasByFiltro(vagaFiltro)
-        .subscribe(
-            response => {
-
-              if (response) {
-                console.log(response)
-                response.forEach((element: any) => {
-                  this.listaVagas.push(new vagaModel(
-                    element.id,
-                    element.nome,
-                    element.modalidade,
-                    element.salario,
-                    element.area,
-                    element.descricao,
-                    element.senioridade,
-                    element.idEmpresa,
-                    element.pessoas,
-                    element.cadastrado
-                  ));
-                });
-              }
-            },
-            responseError => {
-              console.log(
-                'Erro ao tentar recuperar vagas!',
-                responseError.status !== 500 ? responseError?.error?.message : '',
-              );
-            }
-        );
-
-  }
-
-
 
   //********************************************************
-  //                  Autenticação
-  //********************************************************
-
-  pegarTipoUsuario(){
-    if(sessionStorage.getItem('usuarioLogado')){
-      let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
-      this.tipoUsuario = JSON.parse(usuarioLogado)
-    }
-  }
-
-  //********************************************************
-  //            Descandidatar/Candidatar vaga
+  //                Descandidatar vaga
   //********************************************************
 
   mudarSituacaoInscricao(e:any){
     let vagaID = e.switch.id
+    let userID:string | undefined = ""
     let usuarioLogado:userLogadoModel = JSON.parse(String(sessionStorage.getItem('usuarioLogado')))
-    let isCadastrado:boolean | undefined;
-    let userID = usuarioLogado.id
+    userID = usuarioLogado.id
     let delay:number = 100;
 
-     if(e.checked && userID){
-      this.pegarVagaPorID(vagaID)
-      this.pegarUsuarioPorID(String(userID))
-      let esperandoDadosCarregamento = () => {
-        if(delay < 2000){
-          setTimeout(() => {
-            if(this.formObjectVaga && this.formObjectUsuario){
+    if(!e.checked && userID){
 
-              this.formObjectVaga.cadastrado = true
-
-              if(this.formObjectUsuario.cadastroPessoa){
-                this.formObjectUsuario.vagas.push(this.formObjectVaga.id)
-                this.formObjectVaga.pessoas.push(this.formObjectUsuario.id)
-                isCadastrado = true
-              }
-
-              else{
-                alert('Usuario não completou cadastro')
-                this.router.navigate(["/agencia-emprego"])
-              }
-
-              if(isCadastrado){
-                this.atualizarUsuario(this.formObjectUsuario)
-                this.atualizarVaga(this.formObjectVaga)
-                this.pintarLabelCandidato(vagaID)
-              }
-            }
-            else{
-              delay += 200
-              esperandoDadosCarregamento()
-            }
-          },delay)
-        }
-      }
-
-      esperandoDadosCarregamento()
-
-
-     }else if (userID && e.checked==false){
       this.pegarVagaPorID(vagaID)
       this.pegarUsuarioPorID(userID)
 
@@ -204,6 +76,8 @@ export class ListagemVagasComponent implements OnInit {
 
               this.atualizarVaga(this.formObjectVaga)
               this.atualizarUsuario(this.formObjectUsuario)
+              this.listarVagas()
+
             }
             else{
               delay += 200
@@ -215,7 +89,6 @@ export class ListagemVagasComponent implements OnInit {
 
       }
       esperandoDadosCarregamento()
-      this.retirarPituraLabel(vagaID)
      }
   }
 
@@ -238,7 +111,25 @@ export class ListagemVagasComponent implements OnInit {
   }
 
   //********************************************************
-  //              Criação/Listagem de vagas
+  //                   Autenticação
+  //********************************************************
+
+  pegarTipoUsuario(){
+    if(sessionStorage.getItem('usuarioLogado')){
+      let usuarioLogado = String(sessionStorage.getItem('usuarioLogado'))
+      this.tipoUsuario = JSON.parse(usuarioLogado)
+    }
+  }
+
+  redirecionamentoUsuarioTipoErrado(){
+    if(this.tipoUsuario!.tipo=="empresa"){
+      alert('Operação invalida')
+      this.router.navigate(['/agencia-emprego'])
+    }
+  }
+
+  //********************************************************
+  //              Criar/Listagem de vagas
   //********************************************************
 
   criarVaga(){
@@ -269,6 +160,7 @@ export class ListagemVagasComponent implements OnInit {
                     element.cadastrado
                   ));
                 });
+
               }
             },
             responseError => {
@@ -286,7 +178,6 @@ export class ListagemVagasComponent implements OnInit {
         .subscribe(
             response => {
               console.log(response)
-              alert("Atualização da vaga feita com sucesso")
             },
             responseError => {
               console.log(
@@ -303,7 +194,6 @@ export class ListagemVagasComponent implements OnInit {
         .subscribe(
             response => {
               console.log(response)
-              alert("Atualização do usuario feito com sucesso")
             },
             responseError => {
               console.log(
@@ -375,16 +265,4 @@ export class ListagemVagasComponent implements OnInit {
     );
   }
 
-}
-
-export class vagaFiltroModel {
-  modalidade:string | undefined
-  salario:string|undefined
-  senioridade:string|undefined
-
-  constructor(modalidade:string | undefined, salario:string | undefined, senioridade:string | undefined){
-    this.modalidade = modalidade
-    this.salario = salario
-    this.senioridade = senioridade
-  }
 }

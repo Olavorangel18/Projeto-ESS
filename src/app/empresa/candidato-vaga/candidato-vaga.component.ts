@@ -1,7 +1,7 @@
-import { AgenciaEmpregoService } from './../services/agencia-emprego.service';
-import { userLogadoModel } from './../login/model/userLogado.model';
-import { vagaModel } from './../criacao-vaga/models/vaga.models';
-import { userModel } from './../login/model/user.model';
+import { AgenciaEmpregoService } from '../../services/agencia-emprego.service';
+import { userLogadoModel } from 'src/app/shared/login/model/userLogado.model';
+import { vagaModel } from '../criacao-vaga/models/vaga.models';
+import { userModel } from 'src/app/shared/login/model/user.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 

@@ -1,5 +1,5 @@
 //Entrega parcial grupo 9
-import { AgenciaEmpregoService } from './../services/agencia-emprego.service';
+import { AgenciaEmpregoService } from 'src/app/services/agencia-emprego.service';
 import { userLogadoModel } from './model/userLogado.model';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';

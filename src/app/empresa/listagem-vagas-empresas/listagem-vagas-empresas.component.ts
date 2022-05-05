@@ -1,8 +1,8 @@
-import { vagaModel } from './../criacao-vaga/models/vaga.models';
+import { vagaModel } from '../criacao-vaga/models/vaga.models';
 import { Component, OnInit } from '@angular/core';
-import { userLogadoModel } from '../login/model/userLogado.model';
+import { userLogadoModel } from 'src/app/shared/login/model/userLogado.model';
 import { Router } from '@angular/router';
-import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
+import { AgenciaEmpregoService } from '../../services/agencia-emprego.service';
 
 @Component({
   selector: 'app-listagem-vagas-empresas',

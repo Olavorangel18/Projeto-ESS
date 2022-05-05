@@ -1,6 +1,6 @@
-import { vagaModel } from './../../criacao-vaga/models/vaga.models';
+import { vagaModel } from 'src/app/empresa/criacao-vaga/models/vaga.models';
 import { empresaModel } from './../../meu-cadastro/models/empresa.model';
-import { pessoaModel } from "src/app/meu-cadastro/models/pessoa.model";
+import { pessoaModel } from '../../meu-cadastro/models/pessoa.model';
 
 export class userModel {
 

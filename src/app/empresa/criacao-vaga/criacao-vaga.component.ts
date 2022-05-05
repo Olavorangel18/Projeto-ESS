@@ -1,10 +1,10 @@
 import { vagaModel } from './models/vaga.models';
 import { Component, OnInit, Input } from '@angular/core';
-import { userLogadoModel } from '../login/model/userLogado.model';
+import { userLogadoModel } from 'src/app/shared/login/model/userLogado.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { v4 as uuidv4 } from 'uuid';
 import { Router } from '@angular/router';
-import { AgenciaEmpregoService } from '../services/agencia-emprego.service';
+import { AgenciaEmpregoService } from 'src/app/services/agencia-emprego.service';
 
 @Component({
   selector: 'app-criacao-vaga',

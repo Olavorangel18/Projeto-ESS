@@ -1,11 +1,11 @@
-import { notificacaoModel } from './../notificacao/models/notificacao.models';
+import { notificacaoModel } from '../shared/notificacao/models/notificacao.models';
 import { Injectable } from '@angular/core';
 import { BrokerBackendService } from '../shared/services/broker-backend.service';
 import { Observable, of } from 'rxjs';
-import { userModel } from '../login/model/user.model';
+import { userModel } from '../shared/login/model/user.model';
 import { HttpHeaders } from "@angular/common/http";
-import { vagaModel } from '../criacao-vaga/models/vaga.models';
-import { vagaFiltroModel } from '../listagem-vagas/listagem-vagas.component';
+import { vagaModel } from '../empresa/criacao-vaga/models/vaga.models';
+import { vagaFiltroModel } from '../pessoa/listagem-vagas/listagem-vagas.component';
 
 @Injectable({
   providedIn: 'root'
