@@ -36,4 +36,8 @@ cucumber_1.defineSupportCode(({ Given, When, Then }) => {
         let cadastro = protractor_1.element(protractor_1.by.id('cadastro'));
         yield expect(cadastro.getText()).to.eventually.equal('Meus dados');
     }));
+    Given(/^Estou na tela de login$/, () => __awaiter(this, void 0, void 0, function* () {
+        let register = protractor_1.element(protractor_1.by.id('login-register'));
+        yield expect(register.getText()).to.eventually.equal('Create Account');
+    }));
 });
