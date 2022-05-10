@@ -290,7 +290,6 @@ export class ListagemVagasComponent implements OnInit {
         .subscribe(
             response => {
               console.log(response)
-              alert("Atualização da vaga feita com sucesso")
             },
             responseError => {
               console.log(
@@ -307,7 +306,6 @@ export class ListagemVagasComponent implements OnInit {
         .subscribe(
             response => {
               console.log(response)
-              alert("Atualização do usuario feito com sucesso")
             },
             responseError => {
               console.log(

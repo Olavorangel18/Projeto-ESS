@@ -34,22 +34,26 @@ defineSupportCode(({ Given, When, Then }) => {
 	Then(/^Consigo acessar o sistema, o que mostra que a conta foi criada$/, async () => {
 		let cadastro = element(by.id('cadastro'));
        	await expect(cadastro.getText()).to.eventually.equal('Minha empresa');
+		await browser.sleep(2000)
     });
 
 	Given(
 		/^Estou na tela de login$/,
 		async () => {
 			await browser.get('http://localhost:4200');
+			await browser.sleep(2000)
 		});
 
 		Then(/^Clico no botão de Logar$/, async () => {
 			await element(by.id('form-login')).click();
+			await browser.sleep(2000)
 		});
 
 		When(/^o formulário de login aparece$/, async () => {
 			await browser.sleep(2000)
 			let register = element(by.id('cadastrar'));
 			await expect(register.getText()).to.eventually.equal('SIGN IN');
+			await browser.sleep(2000)
 		});
 
 		Then(/^Preencho o formulário com "EmpresaX@gmail.com" "123"$/, async () => {
@@ -58,6 +62,7 @@ defineSupportCode(({ Given, When, Then }) => {
 
 			await $("input[name='email']").sendKeys(<string> email);
 			await $("input[name='password']").sendKeys(<string> password);
+			await browser.sleep(2000)
 		});
 
 		Then(/^Clico no botão para fazer login$/, async () => {

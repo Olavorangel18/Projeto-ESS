@@ -35,23 +35,28 @@ cucumber_1.defineSupportCode(({ Given, When, Then }) => {
     Then(/^Consigo acessar o sistema, o que mostra que a conta foi criada$/, () => __awaiter(this, void 0, void 0, function* () {
         let cadastro = protractor_1.element(protractor_1.by.id('cadastro'));
         yield expect(cadastro.getText()).to.eventually.equal('Minha empresa');
+        yield protractor_1.browser.sleep(2000);
     }));
     Given(/^Estou na tela de login$/, () => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.browser.get('http://localhost:4200');
+        yield protractor_1.browser.sleep(2000);
     }));
     Then(/^Clico no botão de Logar$/, () => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.element(protractor_1.by.id('form-login')).click();
+        yield protractor_1.browser.sleep(2000);
     }));
     When(/^o formulário de login aparece$/, () => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.browser.sleep(2000);
         let register = protractor_1.element(protractor_1.by.id('cadastrar'));
         yield expect(register.getText()).to.eventually.equal('SIGN IN');
+        yield protractor_1.browser.sleep(2000);
     }));
     Then(/^Preencho o formulário com "EmpresaX@gmail.com" "123"$/, () => __awaiter(this, void 0, void 0, function* () {
         let email = "EmpresaX@gmail.com";
         let password = '123';
         yield protractor_1.$("input[name='email']").sendKeys(email);
         yield protractor_1.$("input[name='password']").sendKeys(password);
+        yield protractor_1.browser.sleep(2000);
     }));
     Then(/^Clico no botão para fazer login$/, () => __awaiter(this, void 0, void 0, function* () {
         let register = protractor_1.element(protractor_1.by.id('cadastrar'));
@@ -94,21 +99,6 @@ cucumber_1.defineSupportCode(({ Given, When, Then }) => {
     }));
     Given(/^Usuário "Empresa X" está na tela de notificação$/, () => __awaiter(this, void 0, void 0, function* () {
         yield protractor_1.element(protractor_1.by.id('notificacao')).click();
-        yield protractor_1.browser.sleep(2000);
-    }));
-    When(/^O formulário de criação de notificação aparece ao usuário do tipo empresa$/, () => __awaiter(this, void 0, void 0, function* () {
-        yield expect(protractor_1.element(protractor_1.by.id('label')).getText()).to.eventually.equal('Titulo');
-    }));
-    Then(/^O formulário é preenchido com titulo "Parabens" Candidato "Marcos" Assunto "Aprovação" Mensagem "Você passou"$/, () => __awaiter(this, void 0, void 0, function* () {
-        let igx_select = protractor_1.element(protractor_1.by.tagName('igx-select')).$('input');
-        yield protractor_1.element(protractor_1.by.id('input-titulo')).sendKeys('Parabens');
-        yield igx_select.sendKeys('Marcos');
-        yield protractor_1.element(protractor_1.by.id('Assunto')).sendKeys('Aprovação');
-        yield protractor_1.element(protractor_1.by.id('mensagem')).sendKeys('Você passou');
-        yield protractor_1.browser.sleep(2000);
-    }));
-    Then(/^Os inputs perdem seus valores, mostrando que o comportamento foi seguido da maneira correta$/, () => __awaiter(this, void 0, void 0, function* () {
-        yield protractor_1.element(protractor_1.by.id('completarUsuario')).click();
         yield protractor_1.browser.sleep(2000);
     }));
 });

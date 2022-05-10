@@ -9,8 +9,8 @@
     </div>
   </div>
   <ul>
-    <li *ngFor="let vaga of listaVagas">
-      <div *ngIf="tipoUsuario!.tipo == 'pessoa'" [id]="verSwitchLabel(vaga) ? 'candidatado' : ''" class="inscricao-label {{vaga.id}}">{{verSwitchLabel(vaga) ? "candidatado" : "não candidatado"}}</div>
+    <li name="listagem-vaga"*ngFor="let vaga of listaVagas">
+      <div name="label-selecao" *ngIf="tipoUsuario!.tipo == 'pessoa'" [id]="verSwitchLabel(vaga) ? 'candidatado' : ''" class="inscricao-label {{vaga.id}}">{{verSwitchLabel(vaga) ? "candidatado" : "não candidatado"}}</div>
       <h2>{{vaga.nome}}</h2>
       <p class="descricao">{{vaga.descricao}}</p>
       <div class="informacao-vaga">
