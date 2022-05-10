@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   // controles do formulario
   usuarioForm: FormGroup = new FormGroup({
-  nomeControl: new FormControl('', [Validators.required]),
+  nomeControl: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]),
   emailControl: new FormControl('',[Validators.required, Validators.email]),
   passwordControl: new FormControl('',[Validators.required]),
   });
@@ -89,8 +89,10 @@ export class LoginComponent implements OnInit, OnDestroy {
         [],
       )
       if (this.itemId === undefined) this.criarItem(usuarioParaSalvar);
-    }else{
+    }else if (this.logIn){
       this.logar()
+    }else{
+      alert('Formulário Invalido')
     }
 
   }

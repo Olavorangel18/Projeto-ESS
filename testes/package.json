@@ -9,6 +9,7 @@
 	"devDependencies": {
 		"@types/cucumber": "0.0.38",
 		"@types/node": "^8.0.31",
+		"@types/request-promise": "^4.1.38",
 		"@types/selenium-webdriver": "^3.0.0",
 		"chai": "^4.0.2",
 		"chai-as-promised": "^7.0.0",
@@ -17,10 +18,13 @@
 		"mkdirp": "^0.5.1",
 		"protractor": "^5.1.2",
 		"protractor-cucumber-framework": "^3.1.1",
-		"typescript": "3.5.1",
-		"ts-node": "^3.1.0",
 		"request": "^2.34",
 		"request-promise": "^4.2.2",
-		"@types/request-promise": "^4.1.38"
+		"ts-node": "^3.1.0",
+		"typescript": "3.5.1"
+	},
+	"dependencies": {
+		"win-node-env": "^0.6.1",
+		"yarn": "^1.22.18"
 	}
-  }
+}

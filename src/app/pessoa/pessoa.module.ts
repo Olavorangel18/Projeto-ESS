@@ -9,7 +9,6 @@ import { IgxSelectModule } from 'igniteui-angular';
 import { IgxInputGroupModule } from "igniteui-angular";
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { SharedModule } from '../shared/shared.module';
-import { EmpresaModule } from '../empresa/empresa.module';
 import { HttpClientModule } from '@angular/common/http';
 import { IgxDialogModule } from 'igniteui-angular';
 

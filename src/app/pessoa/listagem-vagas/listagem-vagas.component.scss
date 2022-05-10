@@ -83,7 +83,7 @@ $custom-switch-theme: switch-theme(
 }
 
 .filter{
-  width: 100%;
+  width: 45%;
   display: flex;
   justify-content: flex-end;
 }
@@ -94,6 +94,17 @@ ul{
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+
+.titulo{
+  color:#317181;
+  display: flex;
+  justify-content: flex-end;
+  width: 55%;
+}
+
+.header{
+  display: flex;
 }
 
 li{

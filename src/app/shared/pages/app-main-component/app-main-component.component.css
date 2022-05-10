@@ -70,5 +70,33 @@
 @media screen and (max-width: 1100px) {
   .container{
     width: 100% !important;
+    flex-direction: column-reverse !important;
+  }
+
+  .menu{
+    justify-content: space-around !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    height: 80px !important;
+    width: 100% !important;
+    left: 0px !important;
+  }
+
+  #usuario{
+    margin-left: 0px !important;
+    margin-right: 0px !important;
+  }
+
+  .circulo{
+    margin-top: 0px !important;
+  }
+
+  .menu-options{
+    display: flex !important;
+  }
+
+  .sair{
+    margin-bottom: 0px !important;
+    width: 0% !important;
   }
 }

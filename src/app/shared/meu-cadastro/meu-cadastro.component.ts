@@ -21,7 +21,7 @@ export class MeuCadastroComponent implements OnInit {
 
     //informação empresa
     cnpjControl:new FormControl('',[Validators.required]),
-    nomeControl: new FormControl('', [Validators.required]),
+    nomeControl: new FormControl('', [Validators.required, Validators.pattern('[a-zA-Z ]*')]),
     localizacaoControl:new FormControl('',[Validators.required]),
     telefoneControl:new FormControl('',[Validators.required]),
     tipoEmpresaControl:new FormControl('',[Validators.required]),
