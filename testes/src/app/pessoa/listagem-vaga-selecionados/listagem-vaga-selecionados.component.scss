@@ -1,0 +1,195 @@
+@use '../../../variables' as *;
+
+$custom-switch-theme: switch-theme(
+    $thumb-on-color: #ffffff,
+    $track-on-color: #41B8D2,
+    $thumb-off-color:#41B8D2,
+    $track-off-color: #ffffff,
+    $border-color: #41B8D2,
+    $border-hover-color:#41B8D2,
+);
+
+:host {
+  display: flex;
+  flex-flow: column nowrap;
+  padding: 16px;
+
+  // @include css-vars($custom-switch-theme);
+
+  /* Using Theme Overrides to provide IE 11 support.
+   * NOTE: Theming using this approach will greatly increase the size
+   * of the output CSS. If you do not plan to target IE 11,
+   * delete this section and use the `igx-css-vars` mixin as shown above.
+  **/
+  ::ng-deep {
+      @include switch($custom-switch-theme);
+
+      // this is for the dimensions of the background slider
+       .igx-switch__composite{
+        width: 3.25rem;
+        height: 1.5rem;
+        border-radius: 100px;
+        padding-left: 3px;
+       }
+       // here you can adjust the circular switch and make it smaller if needed
+       .igx-switch__composite-thumb {
+        width: 15px;
+        height: 15px;
+        min-width: 10px;
+        border-radius: 100px;
+        display: inline-block;
+        border-color: gray;
+       }
+       // this will control the lenght of the animation between states
+       .igx-switch--checked .igx-switch__composite-thumb {
+        transform: translateX(1.8rem);
+       }
+  }
+}
+
+.circulo{
+  display: flex;
+  width: 70px;
+  height: 70px;
+  border-radius: 99999px;
+  margin-top: 20px;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid #FFFFFF;
+  background-color: #41B8D2;
+  cursor: pointer;
+}
+
+.filter{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+ul{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+li{
+  width: 80%;
+  border-bottom: 4px solid #41b8d2;
+  margin-bottom: 40px;
+  max-width: 900px;
+}
+
+.descricao{
+  margin-bottom: 20px;
+}
+.informacao-vaga{
+  display: flex;
+  justify-content: space-between;
+}
+
+.titulo{
+  color:#317181;
+  display: flex;
+  justify-content: center;
+}
+
+.informacao-vaga p{
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 20px;
+  color: #C4C4C4;
+}
+
+.informacao-vaga{
+  margin-bottom: 10px;
+}
+
+.container-label-informacao{
+  display: flex;
+  gap: 30px;
+}
+
+.inscricao-label{
+  display: flex;
+  background-color: #E5E5E5;
+  color:#B8B0B0;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  border-radius: 100px;
+  width: 120px;
+  justify-content: center;
+  height: 20px;
+  align-items: center;
+}
+
+h2{
+  font-weight: 700;
+  font-size: 45px;
+  line-height: 68px;
+  color: #41B8D2;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.label{
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 100px;
+  color: white;
+  font-weight: 300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  min-width: 70px;
+}
+
+.expandir{
+  width: 130px !important;
+}
+
+.tipo{
+  background-color: #41D272;
+}
+
+.modalidade{
+  background-color: #41B8D2;
+}
+
+.senioridade{
+  background-color: #6F41D2;
+}
+
+.candidatado{
+  background-color:#41B8D2;
+  color: #FFFFFF;
+}
+
+#candidatado{
+  background-color:#41B8D2;
+  color: #FFFFFF;
+}
+
+.disable{
+  display: none;
+}
+
+@media screen and (max-width: 1100px) {
+  .informacao-vaga{
+    flex-direction: column !important;
+    row-gap: 20px !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container-label-informacao{
+    flex-direction: column !important;
+    row-gap: 20px !important;
+    width: 100px;
+  }
+}
+

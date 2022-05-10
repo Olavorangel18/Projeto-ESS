@@ -1,0 +1,59 @@
+<div [ngClass]="tipoUsuario!.tipo == 'empresa' ? 'notificacao-form' : ''" class="container-notificacao">
+  <h2 class="titulo">Notificação</h2>
+  <div style="width: 80%;margin: 0 auto; padding-top: 30px;" *ngIf="tipoUsuario!.tipo=='empresa'">
+    <form [formGroup]="notificacaoForm">
+      <div class="container-inputs">
+        <div class="input titulo">
+          <img class="img" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3IDIxVjE5QzE3IDE3LjkzOTEgMTYuNTc4NiAxNi45MjE3IDE1LjgyODQgMTYuMTcxNkMxNS4wNzgzIDE1LjQyMTQgMTQuMDYwOSAxNSAxMyAxNUg1QzMuOTM5MTMgMTUgMi45MjE3MiAxNS40MjE0IDIuMTcxNTcgMTYuMTcxNkMxLjQyMTQzIDE2LjkyMTcgMSAxNy45MzkxIDEgMTlWMjEiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTkgMTFDMTEuMjA5MSAxMSAxMyA5LjIwOTE0IDEzIDdDMTMgNC43OTA4NiAxMS4yMDkxIDMgOSAzQzYuNzkwODYgMyA1IDQuNzkwODYgNSA3QzUgOS4yMDkxNCA2Ljc5MDg2IDExIDkgMTFaIiBzdHJva2U9IiNDNEM0QzQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik0yMyAyMVYxOUMyMi45OTkzIDE4LjExMzcgMjIuNzA0NCAxNy4yNTI4IDIyLjE2MTQgMTYuNTUyM0MyMS42MTg0IDE1Ljg1MTkgMjAuODU4MSAxNS4zNTE2IDIwIDE1LjEzIiBzdHJva2U9IiNDNEM0QzQiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+CjxwYXRoIGQ9Ik0xNiAzLjEzQzE2Ljg2MDQgMy4zNTAzIDE3LjYyMyAzLjg1MDcgMTguMTY3NiA0LjU1MjMxQzE4LjcxMjIgNS4yNTM5MiAxOS4wMDc4IDYuMTE2ODMgMTkuMDA3OCA3LjAwNUMxOS4wMDc4IDcuODkzMTcgMTguNzEyMiA4Ljc1NjA4IDE4LjE2NzYgOS40NTc2OUMxNy42MjMgMTAuMTU5MyAxNi44NjA0IDEwLjY1OTcgMTYgMTAuODgiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==">
+          <igx-input-group>
+            <input id="input-titulo"formControlName="tituloControl" igxInput name="nome" type="text" />
+            <label id="label" igxLabel for="nome">Titulo</label>
+          </igx-input-group>
+        </div>
+      </div>
+      <div class="container-inputs">
+        <div class="input">
+          <igx-select formControlName="usuarioControl">
+            <igx-prefix>
+              <img class="img" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjEiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAyMSAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTE3Ljc1IDBDMTguOTkyNiAwIDIwIDEuMDA3MzYgMjAgMi4yNVY3Ljc1NzhDMTkuNTUwNiA3LjQ1NyAxOS4wNDQgNy4yMzUgMTguNSA3LjExMTVWMi4yNUMxOC41IDEuODM1NzkgMTguMTY0MiAxLjUgMTcuNzUgMS41SDIuMjVDMS44MzU3OSAxLjUgMS41IDEuODM1NzkgMS41IDIuMjVWMTMuNzU0NkMxLjUgMTQuMTY4OCAxLjgzNTc5IDE0LjUwNDYgMi4yNSAxNC41MDQ2SDE0VjE2LjAwNDZIMi4yNUMxLjAwNzM2IDE2LjAwNDYgMCAxNC45OTcyIDAgMTMuNzU0NlYyLjI1QzAgMS4wMDczNiAxLjAwNzM2IDAgMi4yNSAwSDE3Ljc1Wk0xMS4yNTIzIDguOTk2MUgxMy43NjA0QzEzLjQ1OSA5LjQ0NTQgMTMuMjM2NCA5Ljk1MiAxMy4xMTI0IDEwLjQ5NjFIMTEuMjUyM0MxMC44MzgxIDEwLjQ5NjEgMTAuNTAyMyAxMC4xNjA0IDEwLjUwMjMgOS43NDYxQzEwLjUwMjMgOS4zNjY0IDEwLjc4NDQgOS4wNTI2IDExLjE1MDUgOS4wMDNMMTEuMjUyMyA4Ljk5NjFaTTcuNzUgOC41QzguMTY0MiA4LjUgOC41IDguODM1OCA4LjUgOS4yNVY5Ljc0MjdMOC40OTIxIDkuODUxM0M4LjMyOTMgMTAuOTY0MiA3LjM5NzY3IDExLjUwMDkgNS45OTk5NSAxMS41MDA5QzQuNjAyMTMgMTEuNTAwOSAzLjY3MDQ4IDEwLjk2MzcgMy41MDc4NyA5Ljg1MDFMMy41IDkuNzQxOFY5LjI1QzMuNSA4LjgzNTggMy44MzU3OSA4LjUgNC4yNSA4LjVINy43NVpNNiA0LjUwMjE4QzYuODI4NDEgNC41MDIxOCA3LjQ5OTk3IDUuMTczNzQgNy40OTk5NyA2LjAwMjJDNy40OTk5NyA2LjgzMDYgNi44Mjg0MSA3LjUwMjEgNiA3LjUwMjFDNS4xNzE1OSA3LjUwMjEgNC41MDAwMyA2LjgzMDYgNC41MDAwMyA2LjAwMjJDNC41MDAwMyA1LjE3Mzc0IDUuMTcxNTkgNC41MDIxOCA2IDQuNTAyMThaTTExLjI1MjMgNS41SDE1Ljc1QzE2LjE2NDIgNS41IDE2LjUgNS44MzU3OSAxNi41IDYuMjVDMTYuNSA2LjYyOTcgMTYuMjE3OCA2Ljk0MzUgMTUuODUxOCA2Ljk5MzJMMTUuNzUgN0gxMS4yNTIzQzEwLjgzODEgNyAxMC41MDIzIDYuNjY0MiAxMC41MDIzIDYuMjVDMTAuNTAyMyA1Ljg3MDMgMTAuNzg0NCA1LjU1NjUxIDExLjE1MDUgNS41MDY4NUwxMS4yNTIzIDUuNVpNMjEgMTEuNUMyMSAxMy40MzMgMTkuNDMzIDE1IDE3LjUgMTVDMTUuNTY3IDE1IDE0IDEzLjQzMyAxNCAxMS41QzE0IDkuNTY3IDE1LjU2NyA4IDE3LjUgOEMxOS40MzMgOCAyMSA5LjU2NyAyMSAxMS41Wk0xNSAxNS4yNDIyVjE4LjI4NTlDMTUgMTguOTE4NCAxNS43NjQ4IDE5LjIzNTIgMTYuMjEyIDE4Ljc4NzlMMTcuNSAxNy41TDE4Ljc4OCAxOC43ODc5QzE5LjIzNTIgMTkuMjM1MiAyMCAxOC45MTg0IDIwIDE4LjI4NTlWMTUuMjQyMkMxOS4yODUgMTUuNzIwOCAxOC40MjUxIDE2IDE3LjUgMTZDMTYuNTc0OSAxNiAxNS43MTUgMTUuNzIwOCAxNSAxNS4yNDIyWiIgZmlsbD0iI0M0QzRDNCIvPgo8L3N2Zz4K">
+            </igx-prefix>
+            <label igxLabel>Candidatos</label>
+            <igx-select-item name="item" *ngFor="let candidato of candidatos" value={{candidato.id}}>{{candidato.nome}}</igx-select-item>
+          </igx-select>
+        </div>
+        <div class="input">
+          <img class="img" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIzIDZMMTMuNSAxNS41TDguNSAxMC41TDEgMTgiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTE3IDZIMjNWMTIiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==">
+          <igx-input-group>
+            <input id="Assunto" formControlName="assuntoControl" igxInput name="Assunto" type="text" />
+            <label igxLabel for="Assunto">Assunto</label>
+        </igx-input-group>
+        </div>
+      </div>
+      <div class="container-inputs">
+        <div class="input textarea">
+          <img _ngcontent-fpn-c376="" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMiA3TDEyIDEyTDIyIDdMMTIgMloiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTIgMTdMMTIgMjJMMjIgMTciIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTIgMTJMMTIgMTdMMjIgMTIiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==" class="img" style="align-self: flex-start;padding-top: 25px;">
+          <igx-input-group>
+            <textarea id="mensagem" formControlName="mensagemControl" igxInput name="mensagem" type="text"></textarea>
+            <label igxLabel for="mensagem">Mensagem</label>
+          </igx-input-group>
+        </div>
+      </div>
+      <div class="container-button">
+        <button id="completarUsuario" (click)="enviarNotificacao()" class="white">Enviar</button>
+      </div>
+    </form>
+  </div>
+  <ul *ngIf="tipoUsuario!.tipo=='pessoa'">
+    <li *ngFor="let notificacao of listaNotificacao">
+      <div class="notificacao-label">Notificação</div>
+      <h2>{{notificacao.titulo}}</h2>
+      <p class="descricao">{{notificacao.mensagem}}</p>
+      <div class="informacao-vaga">
+        <p>Assunto: {{notificacao.assunto}}</p>
+        <div class="container-label-informacao">
+          <div class="label empresa">{{notificacao.idEmpresa}}</div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

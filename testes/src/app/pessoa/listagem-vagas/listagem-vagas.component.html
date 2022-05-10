@@ -1,0 +1,83 @@
+<div class="container-listagem-vagas">
+  <div class="header">
+    <h2 class="titulo">Vagas</h2>
+    <div class="filter">
+      <div class="circulo {{tipoUsuario!.tipo == 'empresa' ? 'expandir' : ''}}">
+        <img (click)="form.open()" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzYiIGhlaWdodD0iMzQiIHZpZXdCb3g9IjAgMCAzNiAzNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTM1IDFIMUwxNC42IDE3LjgxNzhWMjkuNDQ0NEwyMS40IDMzVjE3LjgxNzhMMzUgMVoiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+Cjwvc3ZnPgo=">
+        <svg id="criarVagas" (click)="criarVaga()" *ngIf="tipoUsuario!.tipo == 'empresa'" width="55" height="62" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M31 15V44" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M17 30H46" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  <ul>
+    <li name="listagem-vaga"*ngFor="let vaga of listaVagas">
+      <div name="label-selecao" *ngIf="tipoUsuario!.tipo == 'pessoa'" [id]="verSwitchLabel(vaga) ? 'candidatado' : ''" class="inscricao-label {{vaga.id}}">{{verSwitchLabel(vaga) ? "candidatado" : "não candidatado"}}</div>
+      <h2>{{vaga.nome}}</h2>
+      <p class="descricao">{{vaga.descricao}}</p>
+      <div class="informacao-vaga">
+        <p>Faixa Salarial: R$ {{vaga.salario}}</p>
+        <div class="container-label-informacao">
+          <div class="label tipo">{{vaga.area}}</div>
+          <div class="label modalidade">{{vaga.modalidade}}</div>
+          <div class="label senioridade">{{vaga.senioridade}}</div>
+        </div>
+        <igx-switch [checked]="verSwitchLabel(vaga)" id={{vaga.id}}  class={{vaga.idEmpresa}} (change)="mudarSituacaoInscricao($event)" *ngIf="tipoUsuario!.tipo == 'empresa' ? false : true"></igx-switch>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<igx-dialog #form [closeOnOutsideSelect]="true">
+  <igx-dialog-title>
+      <div class="title-container">
+        <h3>Filtragem de Vagas</h3>
+      </div>
+  </igx-dialog-title>
+
+  <form [formGroup]="filtroForm" class="filtragemForm" style="width:80vw">
+    <div class="container-modalidade-experiencia">
+      <div class="input-modalidade">
+        <h4>Modalidade</h4>
+        <div class="input-filtro">
+          <ul class="modalidade-filtro">
+            <li (click)="pintarInputModalidade($event)" class="filtro" style="border: 1px solid #41B8D2;">Hibrido</li>
+            <li (click)="pintarInputModalidade($event)" class="filtro" style="border: 1px solid #41B8D2;">Remoto</li>
+            <li (click)="pintarInputModalidade($event)" class="filtro" style="border: 1px solid #41B8D2;">Presencial</li>
+          </ul>
+        </div>
+      </div>
+      <div class="input-experiencia">
+        <h4>Nivel de experiência</h4>
+        <div class="input-filtro">
+          <ul class="experiencia-filtro">
+            <div class="tres-label">
+              <li (click)="pintarInputExperiencia($event)" class="filtro" style="border: 1px solid #41B8D2;">Estágio</li>
+              <li (click)="pintarInputExperiencia($event)" class="filtro" style="border: 1px solid #41B8D2;">Junior</li>
+              <li (click)="pintarInputExperiencia($event)" class="filtro" style="border: 1px solid #41B8D2;">Senior</li>
+            </div>
+            <div class="tres-label">
+              <li (click)="pintarInputExperiencia($event)" class="filtro" style="border: 1px solid #41B8D2;">Trainee</li>
+              <li (click)="pintarInputExperiencia($event)" class="filtro" style="border: 1px solid #41B8D2;">Pleno</li>
+              <li (click)="pintarInputExperiencia($event)" class="filtro" style="border: 1px solid #41B8D2;">Especialista</li>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container-salario">
+      <div class="input">
+        <img class="img" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMiA3TDEyIDEyTDIyIDdMMTIgMloiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTIgMTdMMTIgMjJMMjIgMTciIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPHBhdGggZD0iTTIgMTJMMTIgMTdMMjIgMTIiIHN0cm9rZT0iI0M0QzRDNCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9zdmc+Cg==">
+        <input id="salarioVaga" class="input-text" type="number" formControlName="salarioControl" placeholder="Faixa Salarial">
+      </div>
+    </div>
+  </form>
+  <div class="barra"></div>
+
+  <div igxDialogActions>
+      <button class="cancelar-modal" igxButton (click)="form.close();limparFiltro()">CLEAR</button>
+      <button class="enviar-filtro" igxButton (click)="form.close(); aplicarFiltro()">Apply Filters</button>
+  </div>
+</igx-dialog>
+
